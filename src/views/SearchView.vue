@@ -19,7 +19,7 @@ export default {
 				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
 			);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = false;
+			this.isMovieList = true;
 		},
 		/* searchMovies - Fetches movies based on the user's query */
 		async searchMovies(event) {
@@ -31,7 +31,7 @@ export default {
 				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = false;
+			this.isMovieList = true;
 		}
 	},
 	async mounted() {
