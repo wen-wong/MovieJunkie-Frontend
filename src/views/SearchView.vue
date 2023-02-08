@@ -9,25 +9,29 @@ export default {
 	data() {
 		return {
 			movieList: [],
-			isMovieList: [false],
-			search: ""
+			isMovieList: [false]
 		};
 	},
 	methods: {
+		/* fetchMovies - Fetches latest movies from the TMDB API */
 		async fetchMovies() {
 			const movieResponse = await axios.get(
-				"https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c"
+				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
 			);
 			this.movieList = movieResponse.data.results;
+			this.isMovieList = false;
 		},
+		/* searchMovies - Fetches movies based on the user's query */
 		async searchMovies(event) {
+			if (!event.target.value) {
+				this.isMovieList = false;
+				return;
+			}
 			const movieResponse = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
-		},
-		routeToMovie(id) {
-			// TODO add route to movie
+			this.isMovieList = false;
 		}
 	},
 	async mounted() {
@@ -38,6 +42,7 @@ export default {
 
 <template>
 	<div class="search">
+		<!-- Search Bar to query movies -->
 		<div class="search-bar">
 			<label for="movie-search">Search for a movie</label>
 			<input
@@ -48,14 +53,17 @@ export default {
 				@input="searchMovies"
 			/>
 		</div>
-		<div class="movie-container">
+		<!-- If movies have been found -->
+		<div v-if="isMovieList" class="movie-container">
 			<MovieCard
 				v-for="movie in movieList"
 				:title="movie.title"
 				:description="movie.overview"
-				@click="routeToMovie(movie.id)"
+				:id="movie.id"
 			/>
 		</div>
+		<!-- If no movies have been found -->
+		<div v-else class="movie-error">No Movies Found. Please change your request...</div>
 	</div>
 </template>
 
@@ -82,11 +90,19 @@ label {
 	line-height: 2rem;
 }
 
-#movie-search {
+input {
 	font-size: 1.25rem;
 	width: 100vh;
 	padding: 0.75rem;
 	border: 0.01rem solid grey;
 	border-radius: 0.5rem;
+	color: var(--color-text);
+	background-color: var(--background-color);
+}
+
+.movie-error {
+	margin: 2rem;
+	font-size: 1.25rem;
+	font-weight: bold;
 }
 </style>
