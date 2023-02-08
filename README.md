@@ -25,7 +25,7 @@ npm install
 npm run prettier
 ```
 
-1. Run the project locally
+4. Run the project locally
 
 ```
 npm run build
