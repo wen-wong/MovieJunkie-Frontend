@@ -9,25 +9,22 @@ export default {
 	data() {
 		return {
 			movieList: [],
-			isMovieList: [false],
-			search: ""
+			isMovieList: [false]
 		};
 	},
 	methods: {
 		async fetchMovies() {
 			const movieResponse = await axios.get(
-				"https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c"
+				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
 			);
 			this.movieList = movieResponse.data.results;
 		},
 		async searchMovies(event) {
+			if (!event.target.value) return;
 			const movieResponse = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
-		},
-		routeToMovie(id) {
-			// TODO add route to movie
 		}
 	},
 	async mounted() {
@@ -53,7 +50,7 @@ export default {
 				v-for="movie in movieList"
 				:title="movie.title"
 				:description="movie.overview"
-				@click="routeToMovie(movie.id)"
+				:id="movie.id"
 			/>
 		</div>
 	</div>
