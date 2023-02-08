@@ -5,6 +5,7 @@ export default {
 </script>
 
 <template>
+	<!-- On Click routes the user to the specific movie with their ID -->
 	<router-link :to="{ name: 'movie', params: { id: id } }">
 		<div class="card">
 			<div class="card-container">

@@ -13,18 +13,25 @@ export default {
 		};
 	},
 	methods: {
+		/* fetchMovies - Fetches latest movies from the TMDB API */
 		async fetchMovies() {
 			const movieResponse = await axios.get(
 				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
 			);
 			this.movieList = movieResponse.data.results;
+			this.isMovieList = false;
 		},
+		/* searchMovies - Fetches movies based on the user's query */
 		async searchMovies(event) {
-			if (!event.target.value) return;
+			if (!event.target.value) {
+				this.isMovieList = false;
+				return;
+			}
 			const movieResponse = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
+			this.isMovieList = false;
 		}
 	},
 	async mounted() {
@@ -35,6 +42,7 @@ export default {
 
 <template>
 	<div class="search">
+		<!-- Search Bar to query movies -->
 		<div class="search-bar">
 			<label for="movie-search">Search for a movie</label>
 			<input
@@ -45,7 +53,8 @@ export default {
 				@input="searchMovies"
 			/>
 		</div>
-		<div v-if="(movieList.length = 0)" class="movie-container">
+		<!-- If movies have been found -->
+		<div v-if="isMovieList" class="movie-container">
 			<MovieCard
 				v-for="movie in movieList"
 				:title="movie.title"
@@ -53,6 +62,7 @@ export default {
 				:id="movie.id"
 			/>
 		</div>
+		<!-- If no movies have been found -->
 		<div v-else class="movie-error">No Movies Found. Please change your request...</div>
 	</div>
 </template>
