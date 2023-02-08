@@ -26,7 +26,7 @@ export default {
 }
 
 .card:hover {
-	color: black;
+	color: var(--color-text);
 	box-shadow: 0.5rem 0.5rem;
 }
 

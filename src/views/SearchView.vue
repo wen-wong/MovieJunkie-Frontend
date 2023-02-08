@@ -45,7 +45,7 @@ export default {
 				@input="searchMovies"
 			/>
 		</div>
-		<div class="movie-container">
+		<div v-if="(movieList.length = 0)" class="movie-container">
 			<MovieCard
 				v-for="movie in movieList"
 				:title="movie.title"
@@ -53,6 +53,7 @@ export default {
 				:id="movie.id"
 			/>
 		</div>
+		<div v-else class="movie-error">No Movies Found. Please change your request...</div>
 	</div>
 </template>
 
@@ -79,11 +80,19 @@ label {
 	line-height: 2rem;
 }
 
-#movie-search {
+input {
 	font-size: 1.25rem;
 	width: 100vh;
 	padding: 0.75rem;
 	border: 0.01rem solid grey;
 	border-radius: 0.5rem;
+	color: var(--color-text);
+	background-color: var(--background-color);
+}
+
+.movie-error {
+	margin: 2rem;
+	font-size: 1.25rem;
+	font-weight: bold;
 }
 </style>
