@@ -13,6 +13,7 @@
     "dotenv": "^16.0.3",
     "prettier": "^2.8.1",
     "vue": "^3.2.45",
+    "vue-final-modal": "^4.0.3",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
