@@ -18,17 +18,17 @@ export default {
 
 <style>
 .card {
-	width: 100vh;
+	width: 60rem;
 	min-height: 10rem;
 	margin: 1rem 0rem;
-	border: 0.01rem solid grey;
+	border: 0.01rem solid hsl(0, 0%, 50%, 0.5);
 	color: grey;
 	border-radius: 0.5rem;
 }
 
 .card:hover {
 	color: var(--color-text);
-	box-shadow: 0.5rem 0.5rem;
+	box-shadow: 0px 5px 10px hsl(0, 0%, 50%);
 }
 
 .card-title {
@@ -37,7 +37,7 @@ export default {
 }
 
 .card-container {
-	margin: 0.5rem 1rem;
+	margin: 1rem 1rem;
 	display: flex;
 	flex-direction: column;
 }
