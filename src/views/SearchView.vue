@@ -68,6 +68,7 @@ export default {
 					:title="movie.title"
 					:description="movie.overview"
 					:id="movie.id"
+					:image_url="movie.poster_path"
 				/>
 			</div>
 			<!-- If no movies have been found -->
@@ -139,12 +140,14 @@ input {
 .movie-container {
 	display: flex;
 	justify-content: center;
-	transform: translate(0%, -1%);
+	transform: translate(0%, -2%);
 }
 
 .movie-content {
-	display: flex;
-	flex-direction: column;
+	width: 60rem;
+	display: grid;
+	grid-template-columns: repeat(4, auto);
+	justify-content: space-between;
 }
 
 .movie-error {
