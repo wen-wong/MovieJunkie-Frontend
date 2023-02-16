@@ -19,7 +19,7 @@ export default {
 				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
 			);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = true;
+			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		},
 		/* searchMovies - Fetches movies based on the user's query */
 		async searchMovies(event) {
@@ -31,7 +31,7 @@ export default {
 				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = true;
+			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		}
 	},
 	async mounted() {
@@ -72,7 +72,10 @@ export default {
 				/>
 			</div>
 			<!-- If no movies have been found -->
-			<div v-else class="movie-error">No Movies Found. Please change your request...</div>
+			<div v-else class="movie-error">
+				<div>No Movies Found. Would you like to refresh the list of movies?</div>
+				<button class="movie-refresh" v-on:click="fetchMovies">Refresh</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -151,8 +154,20 @@ input {
 }
 
 .movie-error {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin: 2rem;
 	font-size: 1.25rem;
 	font-weight: bold;
+}
+
+.movie-refresh {
+	margin: 1rem;
+	padding: 1rem 3rem;
+	font-size: 1rem;
+	border-radius: 0.5rem;
+	color: white;
+	background-color: black;
 }
 </style>

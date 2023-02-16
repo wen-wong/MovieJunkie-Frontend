@@ -22,7 +22,10 @@ export default {
 			@mouseover.native="hover = true"
 			@mouseleave.native="hover = false"
 		>
-			<div v-if="hover" class="card-title-overlay">
+			<div v-if="hover && image_url != null" class="card-title-overlay">
+				<div class="card-title">{{ title }}</div>
+			</div>
+			<div v-if="image_url == null" class="card-title-overlay full">
 				<div class="card-title">{{ title }}</div>
 			</div>
 		</div>
@@ -32,7 +35,7 @@ export default {
 <style>
 .card {
 	width: 14rem;
-	min-height: 23rem;
+	height: 23rem;
 	margin: 0.75rem 0rem;
 	color: grey;
 	border-radius: 0.5rem;
@@ -58,10 +61,25 @@ export default {
 	background: linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, #000000 70%);
 }
 
+.full {
+	height: 23rem;
+}
+
 .card-title {
 	margin: 1rem;
 	font-size: 1.25rem;
 	font-weight: bold;
 	color: white;
+}
+
+.no-image {
+	justify-content: center;
+	border-radius: 1px solid grey;
+}
+
+.card-no-image {
+	margin: 1rem;
+	display: flex;
+	flex-direction: row;
 }
 </style>
