@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-	<div class="signup">
+	<div class="login">
 		<div class="information">
 			<div class="MovieJunkie">
 				<div class="inline">
@@ -12,13 +12,18 @@
 				</div>
 			</div>
 			<div class="Title">
-				<h1>Join our network</h1>
-				<p>We’d love for you to join!</p>
+				<h1>Welcome back</h1>
+				<p>Let's start reviewing!</p>
 			</div>
 			<div class="NameInput">
 				<p>Name*</p>
 				<input v-model="text" placeholder="Enter your name" />
 			</div>
+			<div class="Line1"></div>
+			<div class="Or">
+				<p>OR</p>
+			</div>
+			<div class="Line2"></div>
 			<div class="EmailInput">
 				<p>Email*</p>
 				<input v-model="text" placeholder="Enter your email" />
@@ -28,9 +33,9 @@
 				<input v-model="text" placeholder="Enter your password" />
 			</div>
 			<div class="SignUpButton">
-				<button @click="signUp">Sign up</button>
+				<button @click="login">Login</button>
 				<div class="LogIn">
-					<p>Already have an account? Log in</p>
+					<p>Need an Account? Register here</p>
 				</div>
 			</div>
 		</div>
@@ -66,7 +71,7 @@ h2 {
 	margin-top: 46px;
 }
 .EmailInput {
-	margin-top: 16px;
+	margin-top: 22px;
 }
 .PasswordInput {
 	margin-top: 16px;
@@ -85,6 +90,48 @@ button {
 	height: 50px;
 	color: white;
 	border-radius: 8px;
+}
+.Line2{
+position: absolute;
+width: 215px;
+height: 0px;
+left: 315px;
+top: 310px;
+
+/* Grey 500 */
+border: 1px solid #808080;
+transform: rotate(0.23deg);
+
+}
+.Line1{
+position: absolute;
+width: 230px;
+height: 0px;
+left: 30x;
+top: 310px;
+
+/* Grey 500 */
+border: 1px solid #808080;
+transform: rotate(0.23deg);
+
+}
+.Or{position: absolute;
+width: 21px;
+height: 19px;
+left: 265px;
+top: 305px;
+
+/* Normal Text */
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+/* identical to box height */
+
+/* Grey 500 */
+color: #808080;
+
 }
 p {
 	font-family: "Roboto";
@@ -109,6 +156,7 @@ h1 {
 .Image {
 position:absolute;
 right:41px;
+top: 0px;
 height: 700px;
 width: 700px;
 border-radius: 64px;
