@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import SearchView from "../views/SearchView.vue";
 import MovieView from "../views/MovieView.vue";
 import ErrorView from "../views/ErrorView.vue";
+import AccountInformationView from "../views/AccountInformationView.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
 			path: "/:catchAll(.*)",
 			name: "error",
 			component: ErrorView
+		},
+		{
+			path: "/account/:username",
+			name: "account",
+			component: AccountInformationView
 		}
 	]
 });
