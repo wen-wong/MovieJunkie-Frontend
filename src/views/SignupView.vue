@@ -1,40 +1,35 @@
-import axios from "axios";
+
 <script>
-/*var backendUrl="//localhost:5432/movie-junkie"
-var AXIOS = axios.create({
-  		baseURL: backendUrl
-		})
+import axios from "axios";
 export default {
-	components: {
-		name: null,
-		email: null,
-		password: null,
-	},
-	data() {
-		return {
-			isCreated: [false]
-		};
-	},
-	
-	methods: {
-		/* create Account - uses Axios to create the account */
-		/*createAccount : function() {
-			AXIOS.post('/account2/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
-				let account= response.data;
-       	 })
+    components: {
+        name: null,
+        email: null,
+        password: null,
+    },
+    data() {
+        return {
+            isCreated: [false]
+        };
+    },
+    
+    methods: {
+        /* create Account - uses Axios to create the account */
+        createAccount : function() {
+            AXIOS.post('/account2/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
+                let account= response.data;
+         })
           .catch(e => {
             let errorMsg = e.response.data.message
             console.log(errorMsg)
             this.errorSignup = errorMsg
             this.error = true
-      		})
-			
-			
-		},
-	
-		
-	}
-};*/
+            })
+            
+            
+        },      
+    }
+};
 </script>
 
 <template>
@@ -62,10 +57,10 @@ export default {
 			</div>
 			<div class="PasswordInput">
 				<p>Password*</p>
-				<input v-model="password" placeholder="Enter your password" />
+				<input v-model="password" placeholder="Enter your password" type=password />
 			</div>
 			<div class="SignUpButton">
-				<button @click="signUp">Sign up</button>
+				<button @click="createAccount()">Sign up</button>
 				<div class="LogIn">
 					<p>Already have an account? Log in</p>
 				</div>

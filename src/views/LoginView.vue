@@ -30,7 +30,7 @@
 			</div>
 			<div class="PasswordInput">
 				<p>Password*</p>
-				<input v-model="text" placeholder="Enter your password" />
+				<input v-model="text" placeholder="Enter your password" type=password/>
 			</div>
 			<div class="SignUpButton">
 				<button @click="login">Login</button>
@@ -119,7 +119,7 @@ transform: rotate(0.23deg);
 width: 21px;
 height: 19px;
 left: 265px;
-top: 305px;
+top: 303px;
 
 /* Normal Text */
 font-family: 'Roboto';
