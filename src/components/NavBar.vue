@@ -1,12 +1,44 @@
+<script>
+import AccountDropdown from '@/components/AccountDropdown.vue'
+
+export default {
+  components: {
+    AccountDropdown,
+  },
+  methods: {
+    handleOptionSelected(option) {
+      if(option == "Edit Account"){
+        //add logic to redirect to popup (once popup is implemented)
+        console.log("Redirecting to edit account popup")
+      }
+      if(option == "Delete Account"){
+        //add logic to redirect to popup (once popup is implemented)
+        console.log("Redirecting to delete account popup")
+      }
+    },
+
+    logout(){
+      console.log("Logging out")
+    },
+
+    returnHome(){
+      console.log("Returning to home page")
+    }
+  },
+};
+</script>
+
 <template>
 	<div class="nav-container">
 		<div class="nav-item-container">
-			<img src="../assets/icons/camera_roll_30px.svg" alt="moviejunkie-logo" />
-			<div class="nav-item item-left">Movie Junkie</div>
+			<img class="nav-item" src="../assets/icons/camera_roll_30px.svg" alt="moviejunkie-logo" @click="returnHome"/>
+			<div class="nav-item item-left" @click="returnHome">Movie Junkie</div>
 		</div>
 		<div class="nav-item-container">
-			<div class="nav-item item-right">Account</div>
-			<img src="../assets/icons/exit_to_app_30px.svg" alt="moviejunkie-logo" />
+<!--			<button class="nav-item item-right">Account-->
+        <AccountDropdown :options="['Edit Account', 'Delete Account']" @optionSelected="handleOptionSelected" />
+<!--      </button>-->
+			<img class ="nav-item" src="../assets/icons/exit_to_app_30px.svg" alt="moviejunkie-logo" @click="logout"/>
 		</div>
 	</div>
 </template>
@@ -28,6 +60,7 @@
 
 .nav-item {
 	font-weight: bold;
+  cursor: pointer;
 }
 
 .item-left {
