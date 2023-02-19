@@ -15,7 +15,7 @@ export default {
 	methods: {
 		/* fetchMovies - Fetches latest movies from the TMDB API */
 		async fetchMovies() {
-			const movieResponse = await axios.get(`http://localhost:1234/discover/1`);
+			const movieResponse = await axios.get(`http://localhost:8080/discover/1`);
 			this.movieList = movieResponse.data.results;
 			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		},
@@ -26,7 +26,7 @@ export default {
 				return;
 			}
 			const movieResponse = await axios.get(
-				`http://localhost:1234/search?query=${event.target.value}`
+				`http://localhost:8080/search?query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
 			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
