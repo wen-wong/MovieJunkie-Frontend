@@ -3,7 +3,7 @@
 import axios from "axios";
 export default {
     components: {
-        name: null,
+        username: null,
         email: null,
         password: null,
     },
@@ -18,7 +18,7 @@ export default {
     methods: {
         /* create Account - uses Axios to create the account */
         createAccount : function() {
-            axios.post('http://localhost:8080/'+'/account/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
+            axios.post('http://localhost:8080/'+'/account/'+ this.username + '/'+ this.email + '/' + this.password).then(response => {
                 let account= response.data;
 				this.isCreated=true;
 				console.log("hello");
