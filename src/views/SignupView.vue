@@ -1,4 +1,41 @@
-<script></script>
+import axios from "axios";
+<script>
+/*var backendUrl="//localhost:5432/movie-junkie"
+var AXIOS = axios.create({
+  		baseURL: backendUrl
+		})
+export default {
+	components: {
+		name: null,
+		email: null,
+		password: null,
+	},
+	data() {
+		return {
+			isCreated: [false]
+		};
+	},
+	
+	methods: {
+		/* create Account - uses Axios to create the account */
+		/*createAccount : function() {
+			AXIOS.post('/account2/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
+				let account= response.data;
+       	 })
+          .catch(e => {
+            let errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.errorSignup = errorMsg
+            this.error = true
+      		})
+			
+			
+		},
+	
+		
+	}
+};*/
+</script>
 
 <template>
 	<div class="signup">
@@ -17,15 +54,15 @@
 			</div>
 			<div class="NameInput">
 				<p>Name*</p>
-				<input v-model="text" placeholder="Enter your name" />
+				<input v-model="name" placeholder="Enter your name" />
 			</div>
 			<div class="EmailInput">
 				<p>Email*</p>
-				<input v-model="text" placeholder="Enter your email" />
+				<input v-model="email" placeholder="Enter your email" />
 			</div>
 			<div class="PasswordInput">
 				<p>Password*</p>
-				<input v-model="text" placeholder="Enter your password" />
+				<input v-model="password" placeholder="Enter your password" />
 			</div>
 			<div class="SignUpButton">
 				<button @click="signUp">Sign up</button>
