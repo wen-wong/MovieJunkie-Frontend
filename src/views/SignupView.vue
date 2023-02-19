@@ -18,17 +18,15 @@ export default {
     methods: {
         /* create Account - uses Axios to create the account */
         createAccount : function() {
-            axios.post('http://localhost:8080/'+'account/'+ this.username + '/'+ this.email + '/' + this.password).then(response => {
-                let account= response.data;
-				this.isCreated=true;
-         })
-          .catch(e => {
-            let errorMsg = e.response.data.message
-            this.errorSignup = errorMsg
-            this.error = true
+            axios.post('http://localhost:8080'+'/account/'+ this.username + '/'+ this.email + '/' + this.password).then(response=>{
+				this.$cookies.set("username", response.data.username);
             })
-            
-            
+            .catch(e => {
+                console.log("error");
+                let errorMsg = e.response.data.message;
+                this.errorSignup = errorMsg;
+                this.error = true;
+            })
         },      
     }
 };
@@ -63,11 +61,13 @@ export default {
 			</div>
 			<div class="SignUpButton">
 				<button @click="createAccount()">Sign up</button>
-				<p>
-                  <span v-if="error" style="color:red">Error: {{errorSignup}}</span>
-                </p>
 				<div class="LogIn">
 					<p>Already have an account? Log in</p>
+				</div>
+				<div class="errorMsg">
+				<p >
+                  <span v-if="error">Error:{{errorSignup}}</span>
+                </p>
 				</div>
 			</div>
 		</div>
@@ -142,6 +142,16 @@ h1 {
 }
 .LogIn {
 	text-align: center;
+}
+.errorMsg {
+
+width: 520px;
+height: 50px;
+left: 60px;
+top: 842px;
+
+background: rgba(232, 125, 125, 0.3);
+border-radius: 8px;
 }
 .Image {
 position:absolute;
