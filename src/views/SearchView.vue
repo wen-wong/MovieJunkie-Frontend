@@ -15,9 +15,7 @@ export default {
 	methods: {
 		/* fetchMovies - Fetches latest movies from the TMDB API */
 		async fetchMovies() {
-			const movieResponse = await axios.get(
-				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
-			);
+			const movieResponse = await axios.get(`http://localhost:1234/discover/1`);
 			this.movieList = movieResponse.data.results;
 			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		},
@@ -28,7 +26,7 @@ export default {
 				return;
 			}
 			const movieResponse = await axios.get(
-				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
+				`http://localhost:1234/search?query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
 			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
