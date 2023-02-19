@@ -18,18 +18,15 @@ export default {
     methods: {
         /* create Account - uses Axios to create the account */
         createAccount : function() {
-            axios.post('http://localhost:8080/'+'/account/'+ this.username + '/'+ this.email + '/' + this.password).then(response => {
-                let account= response.data;
-				this.isCreated=true;
-				console.log("hello");
-         })
-          .catch(e => {
-            let errorMsg = e.response.data.message
-            this.errorSignup = errorMsg
-            this.error = true
+            axios.post('http://localhost:8080'+'/account/'+ this.username + '/'+ this.email + '/' + this.password).then(response=>{
+				this.$cookies.set("username", response.data.username);
             })
-            
-            
+            .catch(e => {
+                console.log("error");
+                let errorMsg = e.response.data.message;
+                this.errorSignup = errorMsg;
+                this.error = true;
+            })
         },      
     }
 };
