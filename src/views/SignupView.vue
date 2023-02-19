@@ -50,13 +50,13 @@ export default {
 				<h1>Join our network</h1>
 				<p>We’d love for you to join!</p>
 			</div>
-			<div class="NameInput">
-				<p>Name*</p>
-				<input v-model="name" placeholder="Enter your name" />
-			</div>
 			<div class="EmailInput">
 				<p>Email*</p>
 				<input v-model="email" placeholder="Enter your email" />
+			</div>
+			<div class="UsernameInput">
+				<p>Username*</p>
+				<input v-model="username" placeholder="Enter your username" />
 			</div>
 			<div class="PasswordInput">
 				<p>Password*</p>
@@ -97,10 +97,10 @@ h2 {
 .Title {
 	margin-top: 48px;
 }
-.NameInput {
+.EmailInput {
 	margin-top: 46px;
 }
-.EmailInput {
+.UsernameInput {
 	margin-top: 16px;
 }
 .PasswordInput {
