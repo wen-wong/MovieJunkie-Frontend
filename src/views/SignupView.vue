@@ -9,19 +9,22 @@ export default {
     },
     data() {
         return {
-            isCreated: [false]
+            isCreated: [false],
+			errorSignup:null,
+			error: false
         };
     },
     
     methods: {
         /* create Account - uses Axios to create the account */
         createAccount : function() {
-            AXIOS.post('/account2/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
+            axios.post('http://localhost:8080/'+'/account/'+ this.name + '/'+ this.email + '/' + this.password).then(response => {
                 let account= response.data;
+				this.isCreated=true;
+				console.log("hello");
          })
           .catch(e => {
             let errorMsg = e.response.data.message
-            console.log(errorMsg)
             this.errorSignup = errorMsg
             this.error = true
             })
