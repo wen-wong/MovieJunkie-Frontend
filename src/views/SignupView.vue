@@ -18,12 +18,13 @@ export default {
     methods: {
         /* create Account - uses Axios to create the account */
         createAccount : function() {
-            axios.post('http://localhost:8080'+'/account/'+ this.username + '/'+ this.email + '/' + this.password).then(response=>{
+			let responseBody = {username: this.username, password: this.password, email: this.email}
+            axios.post('http://localhost:8080'+'/account/create', responseBody).then(response=>{
 				this.$cookies.set("username", response.data.username);
             })
             .catch(e => {
-                console.log("error");
-                let errorMsg = e.response.data.message;
+                let errorMsg = e.response.data;
+				console.log(errorMsg);
                 this.errorSignup = errorMsg;
                 this.error = true;
             })
@@ -64,10 +65,12 @@ export default {
 				<div class="LogIn">
 					<p>Already have an account? Log in</p>
 				</div>
-				<div class="errorMsg">
-				<p >
-                  <span v-if="error">Error:{{errorSignup}}</span>
-                </p>
+				<div class="errorMsg" v-if="error">
+					<p v-if="error">
+						<div class="errorText">
+							Error: {{errorSignup}}
+						</div>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -144,22 +147,29 @@ h1 {
 	text-align: center;
 }
 .errorMsg {
-
-width: 520px;
-height: 50px;
-left: 60px;
-top: 842px;
-
-background: rgba(232, 125, 125, 0.3);
-border-radius: 8px;
+	width: 520px;
+	height: 50px;
+	top: 30px;
+	background: rgba(232, 125, 125, 0.3);
+	border-radius: 8px;
 }
 .Image {
-position:absolute;
-right:41px;
-height: 700px;
-width: 700px;
-border-radius: 64px;
-background: url(.jpg);
+	position: absolute;
+	right: 41px;
+	height: 700px;
+	width: 700px;
+	border-radius: 64px;
+	background: url(.jpg);
+}
+.errorText{
+	left: 51px;
+	top: 16px;
+	font-family: "Roboto";
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 19px;
+	letter-spacing: 0em;
+	text-align: left;
 
 }
 </style>
