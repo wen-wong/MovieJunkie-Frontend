@@ -37,10 +37,10 @@ export default {
 	<div class="signup">
 		<div class="information">
 			<div class="MovieJunkie">
-				<div class="inline">
+				<div class="inline1">
 					<img src="../assets/icons/camera_roll_30px.svg" />
 				</div>
-				<div class="inline">
+				<div class="inline1">
 					<h2>Movie Junkie</h2>
 				</div>
 			</div>
@@ -65,13 +65,22 @@ export default {
 				<div class="LogIn">
 					<p>Already have an account? Log in</p>
 				</div>
-				<div class="errorMsg" v-if="error">
-					<p v-if="error">
-						<div class="errorText">
-							Error: {{errorSignup}}
-						</div>
-					</p>
-				</div>
+			</div>
+			<div class="error" v-if="error">
+				<span class="inline2">
+					<div class="errorIcon">
+						<img src="../assets/icons/error_outline_24px_rounded.svg" />
+					</div>
+				</span>
+				<span class="inline2">
+					<div class="errorBox">
+						<p>
+							<div class="errorText">
+								Error: {{errorSignup}}
+							</div>
+						</p>
+					</div>
+				</span>
 			</div>
 		</div>
 		<div class="Image">
@@ -86,7 +95,7 @@ export default {
 	margin-left: 30px;
 	margin-right:30px;
 }
-.inline {
+.inline1 {
 	display: inline-block;
 	vertical-align: middle;
 	height: 30px;
@@ -146,7 +155,7 @@ h1 {
 .LogIn {
 	text-align: center;
 }
-.errorMsg {
+.errorBox {
 	width: 520px;
 	height: 50px;
 	top: 30px;
@@ -170,6 +179,13 @@ h1 {
 	line-height: 19px;
 	letter-spacing: 0em;
 	text-align: left;
-
+}
+.errorIcon {
+	position: absolute;
+	left: 17px;
+	top: 42px;
+}
+.error {
+	position: relative;
 }
 </style>
