@@ -6,6 +6,7 @@
 <script>
 
 import NavBar from "@/components/NavBar.vue";
+
 export default {
   name: "AccountInformationView",
   components: {NavBar},
@@ -30,6 +31,7 @@ export default {
     editAccount() {
       console.log('you are now editing your account');
     },
+
   },
 };
 </script>

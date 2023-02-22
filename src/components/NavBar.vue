@@ -1,20 +1,43 @@
 <script>
 import AccountDropdown from '@/components/AccountDropdown.vue'
-
 export default {
+
   components: {
     AccountDropdown,
+  },
+  data() {
+    return {
+      "showModal": false,
+      "edit": false,
+      "del": false,
+    }
   },
   methods: {
     handleOptionSelected(option) {
       if(option == "Edit Account"){
         //add logic to redirect to popup (once popup is implemented)
+        this.showModal = true;
+        this.edit = true;
+        this.del = false;
         console.log("Redirecting to edit account popup")
       }
       if(option == "Delete Account"){
         //add logic to redirect to popup (once popup is implemented)
+        this.showModal = true;
+        this.del = true;
+        this.edit = false;
         console.log("Redirecting to delete account popup")
       }
+    },
+
+    editAccount(){
+      this.edit = false;
+      this.showModal = false;
+    },
+
+    deleteAccount(){
+      this.del = false;
+      this.showModal = false;
     },
 
     logout(){
@@ -41,6 +64,43 @@ export default {
 			<img class ="nav-item" src="../assets/icons/exit_to_app_30px.svg" alt="moviejunkie-logo" @click="logout"/>
 		</div>
 	</div>
+  <div v-if="showModal" id="modal-overlay" ref="modalOverlay">
+    <div id="modal" ref="modal">
+      <div v-if="edit">
+        <h1> Edit Account </h1>
+        <div class="NameInput">
+          <p>Username*</p>
+          <input v-model="text" placeholder="Enter your username"/>
+        </div>
+        <div class="EmailInput">
+          <p>Email*</p>
+          <input v-model="text" placeholder="Enter your new email"/>
+        </div>
+        <div class="PasswordInput">
+          <p>Password*</p>
+          <input v-model="text" placeholder="Enter your password"/>
+        </div>
+        <div class="SignUpButton">
+          <button class="button" @click="editAccount">Confirm Changes</button>
+        </div>
+      </div>
+      <div v-if="del">
+        <h1> Delete Account </h1>
+        <div class="NameInput">
+          <p>Username*</p>
+          <input v-model="text" placeholder="Enter your username"/>
+        </div>
+        <div class="PasswordInput">
+          <p>Password*</p>
+          <input v-model="text" placeholder="Enter your password"/>
+        </div>
+        <div class="SignUpButton">
+          <button class="button" @click="deleteAccount">Confirm Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </template>
 
 <style>
@@ -69,5 +129,36 @@ export default {
 
 .item-right {
 	margin-right: 0.5rem;
+}
+
+#modal-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-overlay #modal {
+  max-width: 35rem;
+  width: 100%;
+  background: white;
+  height: 40rem;
+  border-radius: 8px;
+}
+
+#modal{
+  position: center;
+}
+
+.button{
+  cursor: pointer;
 }
 </style>
