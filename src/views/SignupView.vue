@@ -1,79 +1,89 @@
 <script>
 import axios from "axios";
 export default {
-    components: {
-        username: null,
-        email: null,
-        password: null,
-    },
-    data() {
-        return {
-            isCreated: [false],
-			errorSignup:null,
+	components: {
+		username: null,
+		email: null,
+		password: null
+	},
+	data() {
+		return {
+			isCreated: [false],
+			errorSignup: null,
 			error: false
-        };
-    },
-    
-    methods: {
-        /* create Account - uses Axios to create the account */
-        createAccount : function() {
-			let responseBody = {username: this.username, password: this.password, email: this.email}
-            axios.post('http://localhost:8080'+'/account/create', responseBody).then(response=>{
-				this.$cookies.set("username", response.data.username);
-            })
-            .catch(e => {
-                let errorMsg = e.response.data;
-				console.log(errorMsg);
-                this.errorSignup = errorMsg;
-                this.error = true;
-            })
-        },      
-    }
+		};
+	},
+
+	methods: {
+		/* create Account - uses Axios to create the account */
+		createAccount: function () {
+			let responseBody = {
+				username: this.username,
+				password: this.password,
+				email: this.email
+			};
+			axios
+				.post("http://localhost:8080" + "/account/create", responseBody)
+				.then((response) => {
+					this.$cookies.set("username", response.data.username);
+				})
+				.catch((e) => {
+					let errorMsg = e.response.data;
+					console.log(errorMsg);
+					this.errorSignup = errorMsg;
+					this.error = true;
+				});
+		}
+	}
 };
 </script>
 
 <template>
 	<div class="signup">
-        <div class="information">
-            <div class="MovieJunkie">
-                <div class="inline">
-                    <img src="../assets/icons/camera_roll_30px.svg">
-                </div>
-                <div class="inline">
-                    <h2>Movie Junkie</h2>
-                </div>
-            </div>
-            <div class="Title">
-                <h1>Join our network</h1>
-                <p>We’d love for you to join!</p>
-            </div>
-            <div class="NameInput">
-                <p>Name*</p>
-                <input v-model="text" placeholder="Enter your name"/>
-            </div>
-            <div class="EmailInput">
-                <p>Email*</p>
-                <input v-model="text" placeholder="Enter your email"/>
-            </div>
-            <div class="PasswordInput">
-                <p>Password*</p>
-                <input v-model="text" placeholder="Enter your password"/>
-            </div>
-            <div class="SignUpButton">
-                <button @click="signUp">Sign up</button>
-                <div class="LogIn">
-                    <p>Already have an account? Log in</p>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="information">
+			<div class="MovieJunkie">
+				<div class="inline">
+					<img src="../assets/icons/camera_roll_30px.svg" />
+				</div>
+				<div class="inline" style="margin-left: 0.5rem">
+					<div class="subtitle">Movie Junkie</div>
+				</div>
+			</div>
+			<div class="Title">
+				<div class="title">Join our network</div>
+				<div class="paragraph">We’d love for you to join!</div>
+			</div>
+			<div class="NameInput">
+				<div class="paragraph">Name*</div>
+				<input class="sign-input" v-model="text" placeholder="Enter your name" />
+			</div>
+			<div class="EmailInput">
+				<div class="paragraph">Email*</div>
+				<input class="sign-input" v-model="text" placeholder="Enter your email" />
+			</div>
+			<div class="PasswordInput">
+				<div class="paragraph">Password*</div>
+				<input class="sign-input" v-model="text" placeholder="Enter your password" />
+			</div>
+			<div class="SignUpButton">
+				<button @click="signUp">Sign up</button>
+				<div class="LogIn">
+					<div class="paragraph">Already have an account? Log in</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style>
 .information {
+	width: 30rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	margin-top: 30px;
 	margin-left: 30px;
-	margin-right:30px;
+	margin-right: 30px;
 }
 .inline1 {
 	display: inline-block;
@@ -89,6 +99,9 @@ h2 {
 	color: black;
 }
 .Title {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 	margin-top: 48px;
 }
 .EmailInput {
@@ -105,12 +118,15 @@ input {
 	height: 76px;
 }
 .SignUpButton {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin-top: 37px;
-	width: 520px;
+	width: 30rem !important;
 }
 button {
+	width: 100% !important;
 	background-color: black;
-	width: 520px;
 	height: 50px;
 	color: white;
 	border-radius: 8px;
@@ -150,7 +166,7 @@ h1 {
 	border-radius: 64px;
 	background: url(.jpg);
 }
-.errorText{
+.errorText {
 	left: 51px;
 	top: 16px;
 	font-family: "Roboto";
@@ -167,5 +183,27 @@ h1 {
 }
 .error {
 	position: relative;
+}
+
+.title {
+	font-size: 3.052rem;
+	font-weight: bold;
+}
+
+.subtitle {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.paragraph {
+	font-size: 1rem;
+}
+
+.sign-input {
+	width: 28.4rem;
+	font-size: 1rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	padding: 0.75rem;
 }
 </style>
