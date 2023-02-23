@@ -66,7 +66,26 @@ export default {
                     <p>Already have an account? Log in</p>
                 </div>
             </div>
-        </div>
+			<div class="error" v-if="error">
+				<span class="inline2">
+					<div class="errorIcon">
+						<img src="../assets/icons/error_outline_24px_rounded.svg" />
+					</div>
+				</span>
+				<span class="inline2">
+					<div class="errorBox">
+						<p>
+							<div class="errorText">
+								Error: {{errorSignup}}
+							</div>
+						</p>
+					</div>
+				</span>
+			</div>
+		</div>
+		<div class="Image">
+				<img src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg" class="Image">
+		</div>
     </div>
 </template>
 
