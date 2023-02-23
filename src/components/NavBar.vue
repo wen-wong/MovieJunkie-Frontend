@@ -76,14 +76,14 @@ export default {
 <template>
 	<div class="nav-container">
 		<div class="nav-item-container">
-			<img class="nav-item" src="../assets/icons/camera_roll_30px.svg" alt="moviejunkie-logo" @click="returnHome"/>
+			<img class="nav-item nav-icon" src="../assets/icons/camera_roll_30px.svg" alt="moviejunkie-logo" @click="returnHome"/>
 			<div class="nav-item item-left" @click="returnHome">Movie Junkie</div>
 		</div>
 		<div class="nav-item-container">
 <!--			<button class="nav-item item-right">Account-->
         <AccountDropdown :options="['Edit Account', 'Delete Account']" @optionSelected="handleOptionSelected" />
 <!--      </button>-->
-			<img class ="nav-item" src="../assets/icons/exit_to_app_30px.svg" alt="moviejunkie-logo" @click="logout"/>
+			<img class ="nav-item nav-icon" src="../assets/icons/exit_to_app_30px.svg" alt="moviejunkie-logo" @click="logout"/>
 		</div>
 	</div>
 	<div v-if="showModal" id="modal-overlay" ref="modalOverlay">
@@ -163,11 +163,17 @@ export default {
 	margin: 2rem 0rem;
 	padding: 1rem 4rem;
 	font-size: 1.25rem;
+  height: 5rem;
 }
 
 .nav-item-container {
 	display: flex;
 	flex-direction: row;
+}
+
+.nav-icon{
+  height: 30px;
+  width: 30px;
 }
 
 .nav-item {

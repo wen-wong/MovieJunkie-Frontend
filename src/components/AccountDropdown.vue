@@ -1,10 +1,6 @@
 <template>
   <div class="dropdown">
-    <button class="dropdown-toggle" @click="toggleDropdown">
-      <div>
-        <h2>Account</h2>
-      </div>
-    </button>
+    <div class="dropdown-toggle" @click="toggleDropdown" id="circle"></div>
     <ul v-show="isOpen" class="dropdown-menu">
       <li v-for="(option, index) in options" :key="index" @click="selectOption(option)">
         {{ option }}
@@ -48,26 +44,35 @@ export default {
 <style>
 .dropdown {
   position: relative;
+  margin-right: 1rem;
 }
+
 .dropdown-toggle {
   display: inline-block;
   padding: 0.5rem;
   border: 1px solid #ccc;
   cursor: pointer;
   background-color: #fff;
-  width: 15rem;
+  /*width: 15rem;*/
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: grey;
 }
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -130px;
   z-index: 1000;
   padding: 0;
   margin: 0;
   list-style: none;
   background-color: #fff;
   border: 1px solid #ccc;
-  width: 100%;
+  width: 11rem;
 }
 .dropdown-menu li {
   padding: 0.5rem;
