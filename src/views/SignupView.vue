@@ -20,6 +20,7 @@ export default {
 			let responseBody = {username: this.username, password: this.password, email: this.email}
             axios.post('http://localhost:8080'+'/account/create', responseBody).then(response=>{
 				this.$cookies.set("username", response.data.username);
+				this.$router.push("/search");
             })
             .catch(e => {
                 let errorMsg = e.response.data;
@@ -35,37 +36,56 @@ export default {
 <template>
 	<div class="signup">
         <div class="information">
-            <div class="MovieJunkie">
-                <div class="inline">
-                    <img src="../assets/icons/camera_roll_30px.svg">
-                </div>
-                <div class="inline">
-                    <h2>Movie Junkie</h2>
-                </div>
-            </div>
-            <div class="Title">
-                <h1>Join our network</h1>
-                <p>We’d love for you to join!</p>
-            </div>
-            <div class="NameInput">
-                <p>Name*</p>
-                <input v-model="text" placeholder="Enter your name"/>
-            </div>
-            <div class="EmailInput">
-                <p>Email*</p>
-                <input v-model="text" placeholder="Enter your email"/>
-            </div>
-            <div class="PasswordInput">
-                <p>Password*</p>
-                <input v-model="text" placeholder="Enter your password"/>
-            </div>
-            <div class="SignUpButton">
-                <button @click="signUp">Sign up</button>
-                <div class="LogIn">
-                    <p>Already have an account? Log in</p>
-                </div>
-            </div>
-        </div>
+ 			<div class="MovieJunkie">
+ 				<div class="inline1">
+ 					<img src="../assets/icons/camera_roll_30px.svg" />
+ 				</div>
+ 				<div class="inline1">
+ 					<h2>Movie Junkie</h2>
+ 				</div>
+ 			</div>
+ 			<div class="Title">
+ 				<h1>Join our network</h1>
+ 				<p>We’d love for you to join!</p>
+ 			</div>
+ 			<div class="EmailInput">
+ 				<p>Email*</p>
+ 				<input v-model="email" placeholder="Enter your email" />
+ 			</div>
+ 			<div class="UsernameInput">
+ 				<p>Username*</p>
+ 				<input v-model="username" placeholder="Enter your username" />
+ 			</div>
+ 			<div class="PasswordInput">
+ 				<p>Password*</p>
+ 				<input v-model="password" placeholder="Enter your password" type=password />
+ 			</div>
+ 			<div class="SignUpButton">
+ 				<button @click="createAccount()">Sign up</button>
+ 				<div class="LogIn">
+ 					<p>Already have an account? Log in</p>
+ 				</div>
+ 			</div>
+ 			<div class="error" v-if="error">
+ 				<span class="inline2">
+ 					<div class="errorIcon">
+ 						<img src="../assets/icons/error_outline_24px_rounded.svg" />
+ 					</div>
+ 				</span>
+ 				<span class="inline2">
+ 					<div class="errorBox">
+ 						<p>
+ 							<div class="errorText">
+ 								Error: {{errorSignup}}
+ 							</div>
+ 						</p>
+ 					</div>
+ 				</span>
+ 			</div>
+ 		</div>
+ 		<div class="Image">
+ 				<img src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg" class="Image">
+ 		</div>
     </div>
 </template>
 
