@@ -15,11 +15,9 @@ export default {
 	methods: {
 		/* fetchMovies - Fetches latest movies from the TMDB API */
 		async fetchMovies() {
-			const movieResponse = await axios.get(
-				`https://api.themoviedb.org/3/discover/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c`
-			);
+			const movieResponse = await axios.get(`http://localhost:8080/discover/1`);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = true;
+			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		},
 		/* searchMovies - Fetches movies based on the user's query */
 		async searchMovies(event) {
@@ -28,10 +26,10 @@ export default {
 				return;
 			}
 			const movieResponse = await axios.get(
-				`https://api.themoviedb.org/3/search/movie?api_key=f4a943efca00a3cd96ac56ff8ad1ea3c&query=${event.target.value}`
+				`http://localhost:8080/search?query=${event.target.value}`
 			);
 			this.movieList = movieResponse.data.results;
-			this.isMovieList = true;
+			this.isMovieList = this.movieList.length != null && this.movieList.length > 0;
 		}
 	},
 	async mounted() {
@@ -41,58 +39,98 @@ export default {
 </script>
 
 <template>
-	<div class="search">
-		<!-- Search Bar to query movies -->
-		<div class="search-bar">
-			<label for="movie-search">Search for a movie</label>
-			<input
-				type="search"
-				id="movie-search"
-				name="movie-search"
-				placeholder="Search for your favorite movie"
-				@input="searchMovies"
-			/>
+	<div class="search-container">
+		<div class="hero-container">
+			<div class="hero-title">What would you like to watch?</div>
 		</div>
-		<!-- If movies have been found -->
-		<div v-if="isMovieList" class="movie-container">
-			<MovieCard
-				v-for="movie in movieList"
-				:title="movie.title"
-				:description="movie.overview"
-				:id="movie.id"
-			/>
+		<div class="search-bar-container">
+			<div class="search-bar">
+				<div class="search-bar-content">
+					<!-- Search Bar to query movies -->
+					<label for="movie-search">Search for a movie</label>
+					<input
+						type="search"
+						id="movie-search"
+						name="movie-search"
+						placeholder="Search for your favorite movie"
+						@input="searchMovies"
+					/>
+				</div>
+			</div>
 		</div>
-		<!-- If no movies have been found -->
-		<div v-else class="movie-error">No Movies Found. Please change your request...</div>
+		<div class="movie-container">
+			<!-- If movies have been found -->
+			<div v-if="isMovieList" class="movie-content">
+				<MovieCard
+					v-for="movie in movieList"
+					:title="movie.title"
+					:description="movie.overview"
+					:id="movie.id"
+					:image_url="movie.poster_path"
+				/>
+			</div>
+			<!-- If no movies have been found -->
+			<div v-else class="movie-error">
+				<div>No Movies Found. Would you like to refresh the list of movies?</div>
+				<button class="movie-refresh" v-on:click="fetchMovies">Refresh</button>
+			</div>
+		</div>
 	</div>
 </template>
 
 <style>
-.search {
-	min-height: 100vh;
+.search-container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	justify-items: center;
+	min-height: 100vh;
+	width: 100%;
+}
+
+.hero-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	vertical-align: middle;
+	min-height: 24rem;
+	background-color: hsl(260, 50%, 70%, 0.25);
+}
+
+.hero-title {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 1.953rem;
+}
+
+.search-bar-container {
+	display: flex;
+	justify-content: center;
+	transform: translate(0%, -50%);
 }
 
 .search-bar {
-	display: flex;
-	flex-direction: column;
+	width: 60rem;
+	min-height: 10rem;
+	background-color: white;
+	border-radius: 1rem;
+	box-shadow: 0px 5px 10px hsl(0, 0%, 50%);
 }
 
-.movie-container {
-	margin: 1rem 0rem;
+.search-bar-content {
+	display: flex;
+	flex-direction: column;
+	margin: 2rem;
 }
 
 label {
 	font-size: 1rem;
 	font-weight: bold;
-	line-height: 2rem;
+	padding-bottom: 0.5rem;
 }
 
 input {
-	font-size: 1.25rem;
-	width: 100vh;
+	font-size: 1rem;
 	padding: 0.75rem;
 	border: 0.01rem solid grey;
 	border-radius: 0.5rem;
@@ -100,9 +138,34 @@ input {
 	background-color: var(--background-color);
 }
 
+.movie-container {
+	display: flex;
+	justify-content: center;
+	transform: translate(0%, -2%);
+}
+
+.movie-content {
+	width: 60rem;
+	display: grid;
+	grid-template-columns: repeat(4, auto);
+	justify-content: space-between;
+}
+
 .movie-error {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin: 2rem;
 	font-size: 1.25rem;
 	font-weight: bold;
+}
+
+.movie-refresh {
+	margin: 1rem;
+	padding: 1rem 3rem;
+	font-size: 1rem;
+	border-radius: 0.5rem;
+	color: white;
+	background-color: black;
 }
 </style>
