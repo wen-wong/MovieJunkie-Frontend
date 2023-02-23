@@ -1,5 +1,7 @@
 <script>
-import AccountDropdown from '@/components/AccountDropdown.vue'
+import AccountDropdown from '@/components/AccountDropdown.vue';
+import axios from 'axios';
+
 export default {
 
   components: {
@@ -10,6 +12,9 @@ export default {
       "showModal": false,
       "edit": false,
       "del": false,
+      "username": "",
+      "password": "",
+      "email": "",
     }
   },
   methods: {
@@ -30,14 +35,31 @@ export default {
       }
     },
 
-    editAccount(){
+    editAccount(username, email, password){
+      console.log("Editing account with username, email, password:" + username + " " + email + " " + password);
       this.edit = false;
       this.showModal = false;
+      axios.post('http://localhost:8080/account/edit/', {
+        username: username,
+        password: password,
+        email: email
+      })
+          .catch(error => {
+            console.log(error)
+          })
     },
 
-    deleteAccount(){
+    deleteAccount(username, password){
+      console.log("Deleting account with username and password: " + username + " " + password)
       this.del = false;
       this.showModal = false;
+      axios.post('http://localhost:8080/account/delete/', {
+        username: username,
+        password: password
+      })
+          .catch(error => {
+            console.log(error)
+          })
     },
 
     logout(){
@@ -70,32 +92,32 @@ export default {
         <h1> Edit Account </h1>
         <div class="NameInput">
           <p>Username*</p>
-          <input v-model="text" placeholder="Enter your username"/>
+          <input v-model="username" placeholder="Enter your username"/>
         </div>
         <div class="EmailInput">
           <p>Email*</p>
-          <input v-model="text" placeholder="Enter your new email"/>
+          <input v-model="email" placeholder="Enter your new email"/>
         </div>
         <div class="PasswordInput">
           <p>Password*</p>
-          <input v-model="text" placeholder="Enter your password"/>
+          <input v-model="password" placeholder="Enter your password"/>
         </div>
         <div class="SignUpButton">
-          <button class="button" @click="editAccount">Confirm Changes</button>
+          <button class="button" @click="editAccount(username, email, password)">Confirm Changes</button>
         </div>
       </div>
       <div v-if="del">
         <h1> Delete Account </h1>
         <div class="NameInput">
           <p>Username*</p>
-          <input v-model="text" placeholder="Enter your username"/>
+          <input v-model="username" placeholder="Enter your username"/>
         </div>
         <div class="PasswordInput">
           <p>Password*</p>
-          <input v-model="text" placeholder="Enter your password"/>
+          <input v-model="password" placeholder="Enter your password"/>
         </div>
         <div class="SignUpButton">
-          <button class="button" @click="deleteAccount">Confirm Changes</button>
+          <button class="button" @click="deleteAccount(username, password)">Confirm Changes</button>
         </div>
       </div>
 
