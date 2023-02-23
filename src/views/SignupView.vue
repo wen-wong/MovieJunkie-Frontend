@@ -20,6 +20,7 @@ export default {
 			let responseBody = {username: this.username, password: this.password, email: this.email}
             axios.post('http://localhost:8080'+'/account/create', responseBody).then(response=>{
 				this.$cookies.set("username", response.data.username);
+				this.$router.push("/search");
             })
             .catch(e => {
                 let errorMsg = e.response.data;
