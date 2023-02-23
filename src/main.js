@@ -12,5 +12,3 @@ app.use(router);
 app.use(VueCookie);
 
 app.mount("#app");
-
-
