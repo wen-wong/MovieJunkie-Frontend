@@ -1,10 +1,12 @@
 <script>
 import axios from "axios";
-import MovieCard from "../components/MovieCard.vue";
+import MovieCard from "@/components/MovieCard.vue";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
 	components: {
-		MovieCard
+		MovieCard,
+		NavBar
 	},
 	data() {
 		return {
@@ -39,6 +41,7 @@ export default {
 </script>
 
 <template>
+	<NavBar></NavBar>
 	<div class="search-container">
 		<div class="hero-container">
 			<div class="hero-title">What would you like to watch?</div>
@@ -49,8 +52,8 @@ export default {
 					<!-- Search Bar to query movies -->
 					<label for="movie-search">Search for a movie</label>
 					<input
+						class="movie-search"
 						type="search"
-						id="movie-search"
 						name="movie-search"
 						placeholder="Search for your favorite movie"
 						@input="searchMovies"
@@ -129,13 +132,21 @@ label {
 	padding-bottom: 0.5rem;
 }
 
-input {
+.movie-search {
 	font-size: 1rem;
 	padding: 0.75rem;
 	border: 0.01rem solid grey;
 	border-radius: 0.5rem;
 	color: var(--color-text);
 	background-color: var(--background-color);
+}
+
+.movie-search {
+	width: 100%;
+	font-size: 1rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	padding: 1.5rem;
 }
 
 .movie-container {

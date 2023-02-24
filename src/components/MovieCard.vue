@@ -13,7 +13,7 @@ export default {
 	<!-- On Click routes the user to the specific movie with their ID -->
 	<router-link :to="{ name: 'movie', params: { id: id } }">
 		<div
-			class="card"
+			class="movie-card"
 			v-bind:style="[
 				image_url != null
 					? { backgroundImage: 'url(https://image.tmdb.org/t/p/w300' + image_url + ')' }
@@ -33,7 +33,7 @@ export default {
 </template>
 
 <style>
-.card {
+.movie-card {
 	width: 14rem;
 	height: 23rem;
 	margin: 0.75rem 0rem;

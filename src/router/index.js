@@ -13,11 +13,11 @@ const router = createRouter({
 		{
 			path: "/",
 			name: "home",
-			component: HomeView
+			component: SignupView
 		},
 		{
-			path: "/movies",
-			name: "movies",
+			path: "/search",
+			name: "search",
 			component: SearchView
 		},
 		{
@@ -39,8 +39,8 @@ const router = createRouter({
 			path: "/account", //just for now - later we will use the primary key to access a specific account
 			name: "account",
 			component: AccountInformationView
-    },
-    {
+		},
+		{
 			path: "/login",
 			name: "login",
 			component: LoginView

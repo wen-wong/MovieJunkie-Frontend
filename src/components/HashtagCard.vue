@@ -5,16 +5,22 @@ export default {
 </script>
 
 <template>
-    <v-card class="card" pa="4">{{ title }}</v-card>
+	<v-card class="card" pa="4">{{ title }}</v-card>
 </template>
 
 <style>
 .card {
-    margin: 0.5rem 0.25rem;
-    padding: 6px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 0.5rem 0.25rem;
+	padding: 0.75rem 1rem;
 	border: 0.01rem solid grey;
 	color: grey;
-	border-radius: 1rem;
-    pointer-events: none;
+	border-radius: 5rem;
+	pointer-events: none;
+	height: 1rem;
+	width: fit-content;
 }
 </style>

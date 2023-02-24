@@ -221,11 +221,12 @@ h1 {
 	height: 1rem;
 	border-radius: 0.5rem;
 	padding: 0.75rem;
+	border: 1px solid grey;
 }
 
 .image-container {
 	margin: 1rem 0rem;
-	width: 65%;
+	width: 60%;
 	border-radius: 3rem 0.5rem 3rem 0.5rem;
 }
 </style>

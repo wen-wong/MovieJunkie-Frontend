@@ -192,6 +192,9 @@ export default {
 	padding: 1rem 4rem;
 	font-size: 1.25rem;
 	height: 5rem;
+	z-index: 10;
+	position: absolute;
+	width: 90%;
 }
 
 .nav-item-container {
@@ -231,6 +234,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	z-index: 20;
 }
 
 #modal {
@@ -239,6 +243,7 @@ export default {
 	border-radius: 8px;
 	position: center;
 	padding: 0rem 3rem 2rem;
+	z-index: 30;
 }
 
 .modal-container {
@@ -264,6 +269,7 @@ export default {
 	height: 1rem;
 	border-radius: 0.5rem;
 	padding: 0.75rem;
+	border: grey solid 1px;
 }
 
 .modal-submit-container {

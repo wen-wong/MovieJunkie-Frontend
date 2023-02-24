@@ -44,9 +44,7 @@ export default {
 		},
 		async fetchHashtags(id) {
 			const hashtagResponse = await axios.get(
-				"http://localhost:8080/movie/" +
-				id +
-				"/hashtags"
+				"http://localhost:8080/movie/" + id + "/hashtags"
 			);
 			this.hashtags = hashtagResponse.data;
 		},
@@ -55,10 +53,7 @@ export default {
 		},
 		async addHashtag(text) {
 			const addHashtagResponse = await axios.post(
-				"http://localhost:8080/movie/" +
-				this.id +
-				"/hashtag/add?text=" +
-				text
+				"http://localhost:8080/movie/" + this.id + "/hashtag/add?text=" + text
 			);
 			this.fetchHashtags(this.id);
 			this.addHashtagBtn();
@@ -107,22 +102,18 @@ export default {
 			</div>
 
 			<div class="release">Release date: {{ "\xa0" + movie.release_date }}</div>
-			
+
 			<div class="hashtag">
-				<HashtagCard
-					v-for="hashtag in hashtags"
-					:title="hashtag.text"
-				/>
-				<v-btn class="btn" @click="addHashtagBtn()" v-if=!hashtagBtnClicked>Add hashtag</v-btn>
+				<div class="hashtag-container">
+					<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
+				</div>
+				<v-btn class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked"
+					>Add hashtag</v-btn
+				>
 			</div>
 
-			<div v-if=hashtagBtnClicked>
-				<div>
-					<input class="hashtag-bar"
-						placeholder="Add a hashtag"
-						v-model="hashtagText"
-					/>
-				</div>
+			<div v-if="hashtagBtnClicked">
+				<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
 				<div class="btn-container">
 					<v-btn class="btn" @click="addHashtagBtn()">Cancel</v-btn>
 					<v-btn class="btn" @click="addHashtag(hashtagText)">Add</v-btn>
@@ -194,27 +185,37 @@ export default {
 	margin-top: 1rem;
 }
 
+.hashtag-container {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 1rem;
+}
+
 .btn-container {
 	margin-top: 0.75rem;
 }
 
 .btn {
-    margin: 0.5rem 0.25rem;
-    padding: 6px;
-	border: 0.01rem solid grey;
-	border-radius: 1rem;
+	margin: 0.5rem 0.25rem;
+	padding: 0.75rem 2rem;
+	border-radius: 0.5rem;
+	background-color: black;
+	color: white;
 }
 
 .btn:hover {
-    background-color: var(--color-text);
+	background-color: var(--color-text);
 }
 
 .hashtag-bar {
-	margin-top: 1rem;
+	width: 10rem;
 	font-size: 1rem;
-	max-width: 10rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	border: grey solid 1px;
+	margin-bottom: 1rem;
 }
-
 
 .overview {
 	/* width: 80vh;
@@ -234,5 +235,4 @@ export default {
 	width: 80%;
 	margin: auto;
 }
-
 </style>
