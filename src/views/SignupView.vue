@@ -11,31 +11,37 @@ export default {
 			isCreated: [false],
 			errorSignup: null,
 			error: false
-        };
-    },
-    
-    methods: {
-        /* create Account - uses Axios to create the account */
-        createAccount : function() {
-			let responseBody = {username: this.username, password: this.password, email: this.email}
-            axios.post('http://localhost:8080'+'/account/create', responseBody).then(response=>{
-				this.$cookies.set("username", response.data.username);
-				this.$router.push("/search");
-            })
-            .catch(e => {
-                let errorMsg = e.response.data;
-				console.log(errorMsg);
-                this.errorSignup = errorMsg;
-                this.error = true;
-            })
-        },      
-    }
+		};
+	},
+
+	methods: {
+		/* create Account - uses Axios to create the account */
+		createAccount: function () {
+			let responseBody = {
+				username: this.username,
+				password: this.password,
+				email: this.email
+			};
+			axios
+				.post("http://localhost:8080" + "/account/create", responseBody)
+				.then((response) => {
+					this.$cookies.set("username", response.data.username);
+					this.$router.push("/search");
+				})
+				.catch((e) => {
+					let errorMsg = e.response.data;
+					console.log(errorMsg);
+					this.errorSignup = errorMsg;
+					this.error = true;
+				});
+		}
+	}
 };
 </script>
 
 <template>
 	<div class="signup">
-		<div class="information">
+		<div class="information-container">
 			<div class="MovieJunkie">
 				<div class="inline1">
 					<img src="../assets/icons/camera_roll_30px.svg" />
@@ -52,52 +58,51 @@ export default {
 				<div class="paragraph">Email*</div>
 				<input class="sign-input" v-model="email" placeholder="Enter your email" />
 			</div>
-			<div class="NameInput">
+			<div class="UsernameInput">
 				<div class="paragraph">Username*</div>
 				<input class="sign-input" v-model="username" placeholder="Enter your name" />
 			</div>
 			<div class="PasswordInput">
 				<div class="paragraph">Password*</div>
-				<input class="sign-input" v-model="password"  type="password" placeholder="Enter your password" />
+				<input
+					class="sign-input"
+					v-model="password"
+					type="password"
+					placeholder="Enter your password"
+				/>
 			</div>
 			<div class="SignUpButton">
-				<button @click="$event => createAccount()">Sign up</button>
+				<button class="sign-button" @click="createAccount()">Sign up</button>
 				<div class="LogIn">
 					<div class="paragraph">Already have an account? Log in</div>
 				</div>
 			</div>
-			<div class="error" v-if="error">
-				<span class="inline2">
-					<div class="errorIcon">
-						<img src="../assets/icons/error_outline_24px_rounded.svg" />
-					</div>
-				</span>
-				<span class="inline2">
-					<div class="errorBox">
-						<p>
-							<div class="errorText">
-								Error: {{errorSignup}}
-							</div>
-						</p>
-					</div>
-				</span>
+			<div class="errorBox" v-if="error">
+				<img src="../assets/icons/error_outline_24px_rounded.svg" alt="Error Icon" />
+				<div class="errorText">Error: {{ errorSignup }}</div>
 			</div>
 		</div>
-		<div class="Image">
-				<img src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg" class="Image">
-		</div>
+		<img
+			class="image-container"
+			src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg"
+		/>
 	</div>
 </template>
 
 <style>
-.information {
+.signup {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.information-container {
 	width: 30rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	margin-top: 30px;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin-top: 1rem;
 }
 .inline1 {
 	display: inline-block;
@@ -119,27 +124,26 @@ h2 {
 	margin-top: 48px;
 }
 .EmailInput {
+	width: 100%;
 	margin-top: 46px;
 }
 .UsernameInput {
+	width: 100%;
 	margin-top: 16px;
 }
 .PasswordInput {
+	width: 100%;
 	margin-top: 16px;
-}
-input {
-	width: 520px;
-	height: 76px;
 }
 .SignUpButton {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 37px;
-	width: 30rem !important;
-}
-button {
 	width: 100% !important;
+	margin-top: 37px;
+}
+.sign-button {
+	width: 100%;
 	background-color: black;
 	height: 50px;
 	color: white;
@@ -166,35 +170,29 @@ h1 {
 	text-align: center;
 }
 .errorBox {
-	width: 520px;
-	height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	padding: 1rem 1rem;
+	width: 28rem;
 	top: 30px;
 	background: rgba(232, 125, 125, 0.3);
 	border-radius: 8px;
+	align-items: center;
+	margin-top: 1rem;
 }
 .Image {
-	position: absolute;
-	right: 41px;
-	height: 700px;
-	width: 700px;
 	border-radius: 64px;
-	background: url(.jpg);
 }
 .errorText {
-	left: 51px;
-	top: 16px;
-	font-family: "Roboto";
+	margin-left: 0.25rem;
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: bold;
 	line-height: 19px;
 	letter-spacing: 0em;
 	text-align: left;
 }
-.errorIcon {
-	position: absolute;
-	left: 17px;
-	top: 42px;
-}
+
 .error {
 	position: relative;
 }
@@ -209,15 +207,25 @@ h1 {
 	font-weight: bold;
 }
 
+.description {
+	margin-left: 1rem;
+}
+
 .paragraph {
 	font-size: 1rem;
 }
 
 .sign-input {
-	width: 28.4rem;
+	width: 95%;
 	font-size: 1rem;
 	height: 1rem;
 	border-radius: 0.5rem;
 	padding: 0.75rem;
+}
+
+.image-container {
+	margin: 1rem 0rem;
+	width: 65%;
+	border-radius: 3rem 0.5rem 3rem 0.5rem;
 }
 </style>
