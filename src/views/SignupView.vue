@@ -29,11 +29,14 @@ export default {
 					this.$router.push("/search");
 				})
 				.catch((e) => {
-					let errorMsg = e.response.data;
+					let errorMsg = e.response.data.errorMsg;
 					console.log(errorMsg);
 					this.errorSignup = errorMsg;
 					this.error = true;
 				});
+		},
+		switchToLogin: function () {
+			this.$router.push("/login");
 		}
 	}
 };
@@ -74,7 +77,7 @@ export default {
 			<div class="SignUpButton">
 				<button class="sign-button" @click="createAccount()">Sign up</button>
 				<div class="LogIn">
-					<div class="paragraph">Already have an account? Log in</div>
+					<div class="paragraph"><div class="inline">Already have an account?</div><div class="inline"><div class="switchToLogin" @click="switchToLogin()"> Log in</div></div></div>
 				</div>
 			</div>
 			<div class="errorBox" v-if="error">
@@ -103,6 +106,9 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 1rem;
+}
+.inline {
+	display: inline-block
 }
 .inline1 {
 	display: inline-block;
@@ -229,4 +235,11 @@ h1 {
 	width: 60%;
 	border-radius: 3rem 0.5rem 3rem 0.5rem;
 }
+
+.switchToLogin {
+	margin-left: 5px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
 </style>
