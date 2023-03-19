@@ -1,8 +1,12 @@
 <script>
+import axios from "axios";
+import { isProxy, toRaw } from "vue";
+
 export default {
 	data() {
 		return {
 			tagList: [],
+			isTagList: false,
 			selectedTagList: []
 		};
 	},
@@ -12,7 +16,37 @@ export default {
 			this.tagList[index].isActive
 				? this.selectedTagList.push(this.tagList[index])
 				: this.selectedTagList.pop();
+		},
+		async fetchTags() {
+			const tagResponse = await axios.get(`http://localhost:8080/hashtags`);
+			this.tagList = tagResponse.data.result;
+			if (this.tagList != undefined) {
+				this.tagList.map((it) => {
+					return {
+						name: it.text,
+						isActive: false
+					};
+				});
+				console.log(this.tagList);
+			}
+			this.isTagList =
+				this.tagList != undefined && this.tagList.length != null && this.tagList.length > 0;
+		},
+		async searchTags(event) {
+			if (!event.target.value) {
+				this.isTagList = false;
+				return;
+			}
+			console.log(event.target.value);
+			const tagResponse = await axios.get(
+				`http://localhost:8080/hashtag/incomplete?hashtags=${event.target.value}`
+			);
+			this.tagList = tagResponse.data.results;
+			this.isTagList = this.tagList.length != null && this.tagList.length > 0;
 		}
+	},
+	async mounted() {
+		await this.fetchTags();
 	}
 };
 </script>
@@ -20,6 +54,16 @@ export default {
 	<div class="search-tag-container">
 		<div class="tag-container">
 			<div class="tag-list-title">Choose your favorite tags</div>
+			<div class="tag-list-search-container">
+				<label for="tag-search">Search a tag</label>
+				<input
+					class="tag-input-search"
+					type="search"
+					name="tag-search"
+					placeholder="Search for your favorite tags"
+					@input="searchTags"
+				/>
+			</div>
 			<div class="tag-list-container">
 				<div
 					v-for="(tag, index) in tagList"
@@ -93,5 +137,12 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+}
+.tag-input-search {
+	width: 100%;
+	font-size: 1rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	padding: 1.5rem;
 }
 </style>
