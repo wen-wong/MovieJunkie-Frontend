@@ -6,6 +6,7 @@ import ErrorView from "../views/ErrorView.vue";
 import SignupView from "../views/SignupView.vue";
 import AccountInformationView from "../views/AccountInformationView.vue";
 import LoginView from "../views/LoginView.vue";
+import SearchTagView from "../views/SearchTagView.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
 			path: "/login",
 			name: "login",
 			component: LoginView
+		},
+		{
+			path: "/search_tag",
+			name: "search_tag",
+			component: SearchTagView
 		}
 	]
 });
