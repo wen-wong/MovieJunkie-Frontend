@@ -1,33 +1,59 @@
 <script>
 import axios from "axios";
-import { isProxy, toRaw } from "vue";
+
+function convertToChip(tags) {
+	return tags.map((it) => {
+		return {
+			name: it.text,
+			isActive: false
+		};
+	});
+}
+
+function removeSelection(tagList, tag) {
+	return tagList.filter((it) => tag.name != it.name);
+}
+
+function convertHashtagToString(tagList) {
+	let result = "";
+	tagList.forEach((it) => {
+		result += it.name + ",";
+	});
+	return result;
+}
 
 export default {
 	data() {
 		return {
 			tagList: [],
 			isTagList: false,
-			selectedTagList: []
+			selectedTagList: [],
+			movieList: []
 		};
 	},
 	methods: {
-		changeSelection(index) {
+		async changeSelection(index) {
 			this.tagList[index].isActive = !this.tagList[index].isActive;
-			this.tagList[index].isActive
-				? this.selectedTagList.push(this.tagList[index])
-				: this.selectedTagList.pop();
+			if (this.tagList[index].isActive) {
+				this.selectedTagList.push(this.tagList[index]);
+			} else {
+				this.selectedTagList = removeSelection(this.selectedTagList, this.tagList[index]);
+			}
+			if (this.selectedTagList.length > 0) {
+				const name = convertHashtagToString(this.selectedTagList);
+				const movieResponse = await axios.get(
+					`http://localhost:8080/movie/search/hashtags?hashtags=${name}`
+				);
+				this.movieList = movieResponse.data;
+			} else {
+				this.movieList = [];
+			}
 		},
 		async fetchTags() {
 			const tagResponse = await axios.get(`http://localhost:8080/hashtags`);
-			this.tagList = tagResponse.data.result;
+			this.tagList = tagResponse.data;
 			if (this.tagList != undefined) {
-				this.tagList.map((it) => {
-					return {
-						name: it.text,
-						isActive: false
-					};
-				});
-				console.log(this.tagList);
+				this.tagList = convertToChip(this.tagList);
 			}
 			this.isTagList =
 				this.tagList != undefined && this.tagList.length != null && this.tagList.length > 0;
@@ -35,14 +61,18 @@ export default {
 		async searchTags(event) {
 			if (!event.target.value) {
 				this.isTagList = false;
+				this.fetchTags();
 				return;
 			}
-			console.log(event.target.value);
 			const tagResponse = await axios.get(
 				`http://localhost:8080/hashtag/incomplete?hashtags=${event.target.value}`
 			);
-			this.tagList = tagResponse.data.results;
-			this.isTagList = this.tagList.length != null && this.tagList.length > 0;
+			if (tagResponse != null) {
+				this.tagList = convertToChip(tagResponse.data);
+				this.isTagList = this.tagList.length != null && this.tagList.length > 0;
+			} else {
+				this.fetchTags();
+			}
 		}
 	},
 	async mounted() {
@@ -76,8 +106,8 @@ export default {
 			</div>
 		</div>
 		<div class="tag-movie-container">
-			<div v-for="tag in selectedTagList" class="tag-search-active">
-				{{ tag.name }}
+			<div v-for="movie in movieList" class="tag-search-active">
+				{{ movie.id }}
 			</div>
 		</div>
 	</div>
@@ -144,5 +174,9 @@ export default {
 	height: 1rem;
 	border-radius: 0.5rem;
 	padding: 1.5rem;
+	border: 1px solid grey;
+}
+.tag-list-search-container {
+	margin-bottom: 0.5rem;
 }
 </style>
