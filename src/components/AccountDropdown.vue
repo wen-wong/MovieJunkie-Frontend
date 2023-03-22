@@ -73,10 +73,13 @@ export default {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	width: 11rem;
+	border-radius: 10px;
 }
 .dropdown-menu li {
-	padding: 0.5rem;
+	padding: 0.6rem;
+	padding-left: 1.25rem;
 	cursor: pointer;
+	border-radius: 10px;
 }
 .dropdown-menu li:hover {
 	background-color: #f5f5f5;

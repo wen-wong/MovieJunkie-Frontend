@@ -11,6 +11,7 @@ export default {
 			showModal: false,
 			edit: false,
 			del: false,
+			createPlaylist:false,
 			username: "",
 			password: "",
 			email: ""
@@ -23,6 +24,7 @@ export default {
 				this.showModal = true;
 				this.edit = true;
 				this.del = false;
+				this.createPlaylist = false;
 				console.log("Redirecting to edit account popup");
 			}
 			if (option == "Delete Account") {
@@ -30,7 +32,14 @@ export default {
 				this.showModal = true;
 				this.del = true;
 				this.edit = false;
+				this.createPlaylist = false;
 				console.log("Redirecting to delete account popup");
+			}
+			if (option == "Create Playlist") {
+				this.showModal = true;
+				this.del = false;
+				this.edit = false;
+				this.createPlaylist = true;
 			}
 		},
 
@@ -72,7 +81,19 @@ export default {
 				});
 			this.$router.push("/signup");
 		},
+		//TODO integrate with backend
+		createPlaylist(name){
+			this.createPlaylist = false;
+			this.showModal = false;
 
+			axios
+				.post("http://localhost:8080/playlist/create/", {
+					name: name
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		logout() {
 			console.log("Logging out");
 		},
@@ -95,10 +116,11 @@ export default {
 			/>
 			<div class="nav-item item-left" @click="returnHome">Movie Junkie</div>
 		</div>
+
 		<div class="nav-item-container">
 			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
-				:options="['Edit Account', 'Delete Account']"
+				:options="['Edit Account', 'Delete Account', 'Create Playlist']"
 				@optionSelected="handleOptionSelected"
 			/>
 			<!--      </button>-->
@@ -110,6 +132,7 @@ export default {
 			/>
 		</div>
 	</div>
+
 	<div v-if="showModal" id="modal-overlay" ref="modalOverlay">
 		<div id="modal" ref="modal">
 			<img
@@ -179,6 +202,25 @@ export default {
 					</button>
 				</div>
 			</div>
+
+			<div class="modal-container" v-if="createPlaylist">
+				<div class="modal-title">Create Playlist</div>
+				<div class="modal-input-container">
+					<label>Playlist Name*</label>
+					<input
+						class="modal-input"
+						type="text"
+						v-model="name"
+						placeholder="Enter your playlist name"
+					/>
+				</div>
+				<div class="modal-submit-container">
+					<button class="button" @click="createPlaylist(name)">
+						Create!
+					</button>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </template>
