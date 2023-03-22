@@ -214,8 +214,17 @@ export default {
 						placeholder="Enter your playlist name"
 					/>
 				</div>
+				<div class="modal-input-container">
+					<label>Description</label>
+					<input
+						class="modal-input"
+						type="text"
+						v-model="description"
+						placeholder="Enter a description for the playlist"
+					/>
+				</div>
 				<div class="modal-submit-container">
-					<button class="button" @click="createPlaylist(name)">
+					<button class="button" @click="createPlaylist(name, description)">
 						Create!
 					</button>
 				</div>
