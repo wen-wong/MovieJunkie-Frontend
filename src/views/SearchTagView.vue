@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import MovieCard from "@/components/MovieCard.vue";
 
 function convertToChip(tags) {
 	return tags.map((it) => {
@@ -23,6 +24,9 @@ function convertHashtagToString(tagList) {
 }
 
 export default {
+	components: {
+		MovieCard
+	},
 	data() {
 		return {
 			tagList: [],
@@ -106,9 +110,13 @@ export default {
 			</div>
 		</div>
 		<div class="tag-movie-container">
-			<div v-for="movie in movieList" class="tag-search-active">
-				{{ movie.id }}
-			</div>
+			<MovieCard
+				v-for="movie in movieList"
+				:title="movie.id"
+				:description="movie.id"
+				:id="movie.id"
+				:image_url="null"
+			/>
 		</div>
 	</div>
 </template>
@@ -162,11 +170,11 @@ export default {
 	background-color: #6a40bf;
 }
 .tag-movie-container {
-	width: 60%;
+	width: 64%;
 	margin-top: 2rem;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(4, auto);
+	justify-content: space-between;
 }
 .tag-input-search {
 	width: 100%;
