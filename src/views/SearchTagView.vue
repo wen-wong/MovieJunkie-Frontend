@@ -45,10 +45,15 @@ export default {
 			}
 			if (this.selectedTagList.length > 0) {
 				const name = convertHashtagToString(this.selectedTagList);
-				const movieResponse = await axios.get(
+				const movieIdResponse = await axios.get(
 					`http://localhost:8080/movie/search/hashtags?hashtags=${name}`
 				);
-				this.movieList = movieResponse.data;
+				const movieIdList = movieIdResponse.data.map((it) => it.id);
+				movieIdList.forEach(async (it) => {
+					const movieResponse = await axios.get(`http://localhost:8080/movie/tmdb/${it}`);
+					this.movieList.push(movieResponse.data);
+					return;
+				});
 			} else {
 				this.movieList = [];
 			}
@@ -112,10 +117,10 @@ export default {
 		<div class="tag-movie-container">
 			<MovieCard
 				v-for="movie in movieList"
-				:title="movie.id"
-				:description="movie.id"
+				:title="movie.title"
+				:description="movie.overview"
 				:id="movie.id"
-				:image_url="null"
+				:image_url="movie.poster_path"
 			/>
 		</div>
 	</div>
@@ -170,10 +175,10 @@ export default {
 	background-color: #6a40bf;
 }
 .tag-movie-container {
-	width: 64%;
+	width: 60rem;
 	margin-top: 2rem;
 	display: grid;
-	grid-template-columns: repeat(4, auto);
+	grid-template-columns: repeat(4, 1fr);
 	justify-content: space-between;
 }
 .tag-input-search {
