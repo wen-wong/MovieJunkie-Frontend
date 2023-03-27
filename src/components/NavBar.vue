@@ -11,7 +11,7 @@ export default {
 			showModal: false,
 			edit: false,
 			del: false,
-			createPlaylist:false,
+			createPlaylist: false,
 			username: "",
 			password: "",
 			email: ""
@@ -82,7 +82,7 @@ export default {
 			this.$router.push("/signup");
 		},
 		//TODO integrate with backend
-		createPlaylist(name){
+		createPlaylist(name) {
 			this.createPlaylist = false;
 			this.showModal = false;
 
@@ -116,7 +116,15 @@ export default {
 			/>
 			<div class="nav-item item-left" @click="returnHome">Movie Junkie</div>
 		</div>
-
+		<div class="nav-routes-container">
+			<router-link :to="{ name: 'search' }">
+				<div class="nav-route">Search</div>
+			</router-link>
+			<div class="nav-route">Hashtags</div>
+			<router-link :to="{ name: 'search_playlist' }">
+				<div class="nav-route">Playlist</div>
+			</router-link>
+		</div>
 		<div class="nav-item-container">
 			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
@@ -229,7 +237,6 @@ export default {
 					</button>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -346,5 +353,17 @@ export default {
 	left: 30rem;
 	top: 1rem;
 	z-index: 10;
+}
+.nav-routes-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.nav-route {
+	margin: 0rem 1rem;
+	font-weight: normal;
+}
+.nav-route:hover {
+	font-weight: bold;
 }
 </style>
