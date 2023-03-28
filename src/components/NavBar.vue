@@ -81,15 +81,12 @@ export default {
 				});
 			this.$router.push("/signup");
 		},
-		//TODO integrate with backend
-		createPlaylist(name) {
+		createPlaylist1(title, description) {
 			this.createPlaylist = false;
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
 			this.showModal = false;
-
 			axios
-				.post("http://localhost:8080/playlist/create/", {
-					name: name
-				})
+				.post(`http://localhost:8080/${cookie}/playlist/create?title=${title}&description=${description}`)
 				.catch((error) => {
 					console.log(error);
 				});
@@ -232,7 +229,7 @@ export default {
 					/>
 				</div>
 				<div class="modal-submit-container">
-					<button class="button" @click="createPlaylist(name, description)">
+					<button class="button" @click="createPlaylist1(name, description)">
 						Create!
 					</button>
 				</div>
