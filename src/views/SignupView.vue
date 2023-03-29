@@ -98,7 +98,7 @@ export default {
 	justify-content: space-around;
 }
 .information-container {
-	width: 30rem;
+	width: 27rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -148,24 +148,9 @@ h2 {
 	height: 50px;
 	color: white;
 	border-radius: 8px;
+	font-size: 1rem;
 }
-p {
-	font-family: "Roboto";
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 19px;
-	letter-spacing: 0em;
-	color: black;
-}
-h1 {
-	font-family: "Roboto";
-	font-size: 49px;
-	font-weight: 700;
-	line-height: 57px;
-	letter-spacing: 0em;
-	text-align: left;
-	color: black;
-}
+
 .LogIn {
 	text-align: center;
 }
@@ -174,7 +159,7 @@ h1 {
 	flex-direction: row;
 	justify-content: flex-start;
 	padding: 1rem 1rem;
-	width: 28rem;
+	width: 25rem;
 	top: 30px;
 	background: rgba(232, 125, 125, 0.3);
 	border-radius: 8px;
@@ -187,7 +172,6 @@ h1 {
 .errorText {
 	margin-left: 0.25rem;
 	font-size: 16px;
-	font-weight: bold;
 	line-height: 19px;
 	letter-spacing: 0em;
 	text-align: left;

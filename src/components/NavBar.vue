@@ -86,7 +86,9 @@ export default {
 			const cookie = decodeURIComponent(document.cookie).split("=")[1];
 			this.showModal = false;
 			axios
-				.post(`http://localhost:8080/${cookie}/playlist/create?title=${title}&description=${description}`)
+				.post(
+					`http://localhost:8080/${cookie}/playlist/create?title=${title}&description=${description}`
+				)
 				.catch((error) => {
 					console.log(error);
 				});
@@ -117,7 +119,9 @@ export default {
 			<router-link :to="{ name: 'search' }">
 				<div class="nav-route">Search</div>
 			</router-link>
-			<div class="nav-route">Hashtags</div>
+			<router-link :to="{ name: 'search_tag' }">
+				<div class="nav-route">Hashtags</div>
+			</router-link>
 			<router-link :to="{ name: 'search_playlist' }">
 				<div class="nav-route">Playlist</div>
 			</router-link>
