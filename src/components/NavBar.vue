@@ -106,7 +106,7 @@ export default {
 
 <template>
 	<div class="nav-container">
-		<div class="nav-item-container">
+		<div class="nav-item-container nav-left">
 			<img
 				class="nav-item nav-icon"
 				src="../assets/icons/camera_roll_30px.svg"
@@ -126,7 +126,7 @@ export default {
 				<div class="nav-route">Playlist</div>
 			</router-link>
 		</div>
-		<div class="nav-item-container">
+		<div class="nav-item-container nav-right">
 			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
 				:options="['Edit Account', 'Delete Account', 'Create Playlist']"
@@ -260,6 +260,17 @@ export default {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	width: 15rem;
+}
+
+.nav-left {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.nav-right {
+	display: flex;
+	justify-content: flex-end;
 }
 
 .nav-icon {
