@@ -9,6 +9,7 @@ export default {
 	data() {
 		return {
 			playlist: {
+				id:0,
 				accountDTO: {
 					username: "hello"
 				},
@@ -49,7 +50,29 @@ export default {
 				]
 			}
 		};
+	},methods:{
+			editPlaylistOrderUp(playlistID, movieID) {
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			axios
+				.post(
+					`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/1/edit-order`
+				)
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		editPlaylistOrderDown(playlistID, movieID) {
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			axios
+				.post(
+					`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/0/edit-order`
+				)
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	}
+	
 };
 </script>
 <template>
@@ -68,7 +91,7 @@ export default {
 						class="nav-item nav-icon"
 						src="../assets/icons/arrow_upward_24px.svg"
 						alt="moviejunkie-logo"
-						@click="returnHome"
+						@click="editPlaylistOrderUp(playlist.id,movie.id)"
 					/>
 					<img
 						class="nav-item nav-icon"
@@ -80,7 +103,7 @@ export default {
 						class="nav-item nav-icon"
 						src="../assets/icons/arrow_downward_24px.svg"
 						alt="moviejunkie-logo"
-						@click="returnHome"
+						@click="editPlaylistOrderDown(playlist.id,movie.id)"
 					/>
 				</div>
 				<div class="playlist-movie-content">
