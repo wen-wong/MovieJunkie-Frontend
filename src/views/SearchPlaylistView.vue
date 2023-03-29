@@ -45,7 +45,9 @@ export default {
 				<div>
 					<div class="play-list-title">{{ play.title }}</div>
 					<div class="play-list-description">{{ play.description }}</div>
-					<div class="play-list-size">Number of movies: {{ play.movies.length }}</div>
+					<div class="play-list-size">
+						Number of movies: {{ play.movieDTOList.length }}
+					</div>
 				</div>
 			</div>
 		</div>
