@@ -68,6 +68,8 @@ export default {
 };
 </script>
 <template>
+  <button @click="$router.push('/search')" class="back-button">Back</button>
+
 	<div class="title">
 		{{ movie.title }}
 		<!-- {{ movie.release_date }}  this works
@@ -76,7 +78,7 @@ export default {
 	</div>
 
 	<hr class="hr" />
-
+			
 	<div class="outer-flex">
 		<div class="flex1">
 			<img class="poster" :src="poster_url" />
@@ -102,16 +104,16 @@ export default {
 			</div>
 
 			<div class="release">Release date: {{ "\xa0" + movie.release_date }}</div>
-
+			
 			<div class="hashtag">
 				<div class="hashtag-container">
 					<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
 				</div>
 				<v-btn class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked"
-					>Add hashtag</v-btn
+					>Add tag</v-btn
 				>
 			</div>
-
+			
 			<div v-if="hashtagBtnClicked">
 				<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
 				<div class="btn-container">
@@ -145,11 +147,23 @@ export default {
 	width: 100rem;
 }
 
+.back-button{
+	margin-top: 1rem;
+	margin-left: 1rem;
+	width: 75px;
+	height:30px;
+	border: none;
+	color: hsla(260, 41%, 35%, 0.785);
+	cursor: pointer;
+	background-color: hsla(260, 35%, 60%, 0.25);
+}
+
 .title {
 	font-size: 1.5rem;
 	font-weight: bold;
 	padding: 0.5rem;
 	text-align: center;
+	padding-top:0px;
 }
 
 .poster {
@@ -197,10 +211,11 @@ export default {
 
 .btn {
 	margin: 0.5rem 0.25rem;
-	padding: 0.75rem 2rem;
+	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;
-	background-color: black;
-	color: white;
+	color: hsla(260, 41%, 35%, 0.785);
+	cursor: pointer;
+	background-color: hsla(260, 35%, 60%, 0.25);
 }
 
 .btn:hover {

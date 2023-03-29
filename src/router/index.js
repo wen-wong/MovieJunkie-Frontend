@@ -6,6 +6,8 @@ import ErrorView from "../views/ErrorView.vue";
 import SignupView from "../views/SignupView.vue";
 import AccountInformationView from "../views/AccountInformationView.vue";
 import LoginView from "../views/LoginView.vue";
+import SearchPlaylistView from "../views/SearchPlaylistView.vue";
+import PlaylistView from "../views/PlaylistView.vue";
 import SearchTagView from "../views/SearchTagView.vue";
 
 const router = createRouter({
@@ -47,7 +49,16 @@ const router = createRouter({
 			component: LoginView
 		},
 		{
-			path: "/search_tag",
+			path: "/search_playlist",
+			name: "search_playlist",
+			component: SearchPlaylistView
+		},
+		{
+			path: "/playlists/:id",
+			name: "playlist",
+			component: PlaylistView
+		},
+		{	path: "/search_tag",
 			name: "search_tag",
 			component: SearchTagView
 		}

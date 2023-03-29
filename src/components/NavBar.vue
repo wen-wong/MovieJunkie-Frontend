@@ -11,6 +11,7 @@ export default {
 			showModal: false,
 			edit: false,
 			del: false,
+			createPlaylist: false,
 			username: "",
 			password: "",
 			email: ""
@@ -23,6 +24,7 @@ export default {
 				this.showModal = true;
 				this.edit = true;
 				this.del = false;
+				this.createPlaylist = false;
 				console.log("Redirecting to edit account popup");
 			}
 			if (option == "Delete Account") {
@@ -30,7 +32,14 @@ export default {
 				this.showModal = true;
 				this.del = true;
 				this.edit = false;
+				this.createPlaylist = false;
 				console.log("Redirecting to delete account popup");
+			}
+			if (option == "Create Playlist") {
+				this.showModal = true;
+				this.del = false;
+				this.edit = false;
+				this.createPlaylist = true;
 			}
 		},
 
@@ -72,7 +81,16 @@ export default {
 				});
 			this.$router.push("/signup");
 		},
-
+		createPlaylist1(title, description) {
+			this.createPlaylist = false;
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			this.showModal = false;
+			axios
+				.post(`http://localhost:8080/${cookie}/playlist/create?title=${title}&description=${description}`)
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		logout() {
 			console.log("Logging out");
 		},
@@ -95,10 +113,19 @@ export default {
 			/>
 			<div class="nav-item item-left" @click="returnHome">Movie Junkie</div>
 		</div>
+		<div class="nav-routes-container">
+			<router-link :to="{ name: 'search' }">
+				<div class="nav-route">Search</div>
+			</router-link>
+			<div class="nav-route">Hashtags</div>
+			<router-link :to="{ name: 'search_playlist' }">
+				<div class="nav-route">Playlist</div>
+			</router-link>
+		</div>
 		<div class="nav-item-container">
 			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
-				:options="['Edit Account', 'Delete Account']"
+				:options="['Edit Account', 'Delete Account', 'Create Playlist']"
 				@optionSelected="handleOptionSelected"
 			/>
 			<!--      </button>-->
@@ -110,6 +137,7 @@ export default {
 			/>
 		</div>
 	</div>
+
 	<div v-if="showModal" id="modal-overlay" ref="modalOverlay">
 		<div id="modal" ref="modal">
 			<img
@@ -176,6 +204,33 @@ export default {
 				<div class="modal-submit-container">
 					<button class="button" @click="deleteAccount(username, password)">
 						Confirm Changes
+					</button>
+				</div>
+			</div>
+
+			<div class="modal-container" v-if="createPlaylist">
+				<div class="modal-title">Create Playlist</div>
+				<div class="modal-input-container">
+					<label>Playlist Name*</label>
+					<input
+						class="modal-input"
+						type="text"
+						v-model="name"
+						placeholder="Enter your playlist name"
+					/>
+				</div>
+				<div class="modal-input-container">
+					<label>Description</label>
+					<input
+						class="modal-input"
+						type="text"
+						v-model="description"
+						placeholder="Enter a description for the playlist"
+					/>
+				</div>
+				<div class="modal-submit-container">
+					<button class="button" @click="createPlaylist1(name, description)">
+						Create!
 					</button>
 				</div>
 			</div>
@@ -295,5 +350,17 @@ export default {
 	left: 30rem;
 	top: 1rem;
 	z-index: 10;
+}
+.nav-routes-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.nav-route {
+	margin: 0rem 1rem;
+	font-weight: normal;
+}
+.nav-route:hover {
+	font-weight: bold;
 }
 </style>
