@@ -9,7 +9,7 @@ export default {
 	data() {
 		return {
 			playlistList: [],
-			isPlaylistList: false
+			isPlaylistList: true
 		};
 	},
 	methods: {
@@ -35,6 +35,7 @@ export default {
 <template>
 	<NavBar />
 	<div class="play-container">
+		<div class="play-background"></div>
 		<div class="play-title">Let's see your favorite movies</div>
 		<div v-if="isPlaylistList" class="play-list-container">
 			<div
@@ -57,33 +58,56 @@ export default {
 	</div>
 </template>
 <style>
+.play-background {
+	position: absolute;
+	top: 0;
+	width: 100vw;
+	height: 24rem;
+	background-color: hsl(260, 50%, 70%, 0.25);
+	z-index: 0;
+}
 .play-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	min-height: 100vh;
 	width: 100%;
-	background-color: hsl(260, 50%, 70%, 0.25);
+	background-color: white;
+	z-index: -1;
 }
 .play-title {
+	max-width: 60rem;
 	width: 60%;
-	margin-top: 10rem;
+	margin-top: 10.5rem;
+	margin-bottom: 3rem;
+	display: flex;
+	justify-content: center;
 	font-weight: bold;
-	font-size: 2rem;
+	font-size: 1.953rem;
+	z-index: 1;
 }
 .play-list-container {
 	margin: 2rem 0rem;
-	width: 60%;
+	max-width: 60%;
+	width: 60rem;
 	display: flex;
 	flex-direction: column;
+	z-index: 1;
 }
+
+.play-list-item:hover {
+	box-shadow: 0px 5px 10px hsl(0, 0%, 50%);
+	border: none;
+}
+
 .play-list-item {
-	width: 100%;
+	width: 55rem;
 	min-height: 6rem;
 	margin: 0.5rem 0rem;
 	padding: 1.5rem 2rem;
-	border-radius: 0.5rem;
+	border-radius: 1rem;
 	background-color: white;
+	border: 1px rgb(224, 224, 224) solid;
 }
 .play-list-card {
 	color: black;
