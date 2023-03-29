@@ -52,9 +52,14 @@ export default {
 				</div>
 			</div>
 		</div>
-		<div v-else class="play-description">
-			No movies found. Please create a movie under your Account Profile.
+		<div v-else class="play-list-container">
+			<div class="play-list-error">
+				<div class="play-list-title-error">
+					No playlist found. Click on the refresh button
+				</div>
+			</div>
 		</div>
+		<button class="playlist-refresh" v-on:click="fetchPlaylist()">Refresh</button>
 	</div>
 </template>
 <style>
@@ -79,7 +84,7 @@ export default {
 	max-width: 60rem;
 	width: 60%;
 	margin-top: 10.5rem;
-	margin-bottom: 3rem;
+	margin-bottom: 1rem;
 	display: flex;
 	justify-content: center;
 	font-weight: bold;
@@ -87,8 +92,7 @@ export default {
 	z-index: 1;
 }
 .play-list-container {
-	margin: 2rem 0rem;
-	max-width: 60%;
+	margin: 4rem 0rem 0rem;
 	width: 60rem;
 	display: flex;
 	flex-direction: column;
@@ -100,7 +104,8 @@ export default {
 	border: none;
 }
 
-.play-list-item {
+.play-list-item,
+.play-list-error {
 	width: 55rem;
 	min-height: 6rem;
 	margin: 0.5rem 0rem;
@@ -116,6 +121,10 @@ export default {
 	font-size: 1.5rem;
 	font-weight: bold;
 }
+.play-list-title-error {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
 .play-list-description {
 	width: 100%;
 	overflow: hidden;
@@ -127,5 +136,13 @@ export default {
 .play-description {
 	width: 60%;
 	font-size: 1rem;
+}
+.playlist-refresh {
+	margin: 1rem;
+	padding: 1rem 0rem;
+	font-size: 1rem;
+	border-radius: 0.5rem;
+	color: white;
+	background-color: black;
 }
 </style>
