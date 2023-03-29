@@ -30,7 +30,7 @@
 			</div>
 			<div class="PasswordInput">
 				<p>Password*</p>
-				<input v-model="text" placeholder="Enter your password" type=password/>
+				<input v-model="text" placeholder="Enter your password" type="password" />
 			</div>
 			<div class="SignUpButton">
 				<button @click="login">Login</button>
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="Image">
-				<img src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg" class="Image">
+			<img src="/src/assets/images/denise-jans-Lq6rcifGjOU-unsplash.jpg" class="Image" />
 		</div>
 	</div>
 </template>
@@ -49,7 +49,7 @@
 .information {
 	margin-top: 30px;
 	margin-left: 30px;
-	margin-right:30px;
+	margin-right: 30px;
 }
 .inline {
 	display: inline-block;
@@ -91,47 +91,45 @@ button {
 	color: white;
 	border-radius: 8px;
 }
-.Line2{
-position: absolute;
-width: 215px;
-height: 0px;
-left: 315px;
-top: 310px;
+.Line2 {
+	position: absolute;
+	width: 215px;
+	height: 0px;
+	left: 315px;
+	top: 310px;
 
-/* Grey 500 */
-border: 1px solid #808080;
-transform: rotate(0.23deg);
-
+	/* Grey 500 */
+	border: 1px solid #808080;
+	transform: rotate(0.23deg);
 }
-.Line1{
-position: absolute;
-width: 230px;
-height: 0px;
-left: 30x;
-top: 310px;
+.Line1 {
+	position: absolute;
+	width: 230px;
+	height: 0px;
+	left: 30x;
+	top: 310px;
 
-/* Grey 500 */
-border: 1px solid #808080;
-transform: rotate(0.23deg);
-
+	/* Grey 500 */
+	border: 1px solid #808080;
+	transform: rotate(0.23deg);
 }
-.Or{position: absolute;
-width: 21px;
-height: 19px;
-left: 265px;
-top: 303px;
+.Or {
+	position: absolute;
+	width: 21px;
+	height: 19px;
+	left: 265px;
+	top: 303px;
 
-/* Normal Text */
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-/* identical to box height */
+	/* Normal Text */
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 19px;
+	/* identical to box height */
 
-/* Grey 500 */
-color: #808080;
-
+	/* Grey 500 */
+	color: #808080;
 }
 p {
 	font-family: "Roboto";
@@ -154,13 +152,12 @@ h1 {
 	text-align: center;
 }
 .Image {
-position:absolute;
-right:41px;
-top: 0px;
-height: 700px;
-width: 700px;
-border-radius: 64px;
-background: url(.jpg);
-
+	position: absolute;
+	right: 41px;
+	top: 0px;
+	height: 700px;
+	width: 700px;
+	border-radius: 64px;
+	background: url(.jpg);
 }
 </style>
