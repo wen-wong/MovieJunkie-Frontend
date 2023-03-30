@@ -25,7 +25,6 @@ export default {
 				this.edit = true;
 				this.del = false;
 				this.createPlaylist = false;
-				console.log("Redirecting to edit account popup");
 			}
 			if (option == "Delete Account") {
 				//add logic to redirect to popup (once popup is implemented)
@@ -33,7 +32,6 @@ export default {
 				this.del = true;
 				this.edit = false;
 				this.createPlaylist = false;
-				console.log("Redirecting to delete account popup");
 			}
 			if (option == "Create Playlist") {
 				this.showModal = true;
@@ -44,14 +42,6 @@ export default {
 		},
 
 		editAccount(username, email, password) {
-			console.log(
-				"Editing account with username, email, password:" +
-					username +
-					" " +
-					email +
-					" " +
-					password
-			);
 			this.edit = false;
 			this.showModal = false;
 			axios
@@ -66,9 +56,6 @@ export default {
 		},
 
 		deleteAccount(username, password) {
-			console.log(
-				"Deleting account with username and password: " + username + " " + password
-			);
 			this.del = false;
 			this.showModal = false;
 			axios
@@ -94,15 +81,11 @@ export default {
 				});
 		},
 		logout() {
-			console.log("Logging out");
 			this.$cookies.set("username", null);
-			console.log(this.$cookies.get("username"));
 			this.$router.push("/login");
 		},
 
-		returnHome() {
-			console.log("Returning to home page");
-		}
+		returnHome() {}
 	}
 };
 </script>
