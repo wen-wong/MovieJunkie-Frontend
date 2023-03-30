@@ -77,7 +77,12 @@ export default {
 			<div class="SignUpButton">
 				<button class="sign-button" @click="createAccount()">Sign up</button>
 				<div class="LogIn">
-					<div class="paragraph"><div class="inline">Already have an account?</div><div class="inline"><div class="switchToLogin" @click="switchToLogin()"> Log in</div></div></div>
+					<div class="paragraph">
+						<div class="inline">Already have an account?</div>
+						<div class="inline">
+							<a class="switchToLogin" @click="switchToLogin()"> Log in</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="errorBox" v-if="error">
@@ -108,7 +113,7 @@ export default {
 	margin-top: 1rem;
 }
 .inline {
-	display: inline-block
+	display: inline-block;
 }
 .inline1 {
 	display: inline-block;
@@ -224,6 +229,6 @@ h2 {
 	margin-left: 5px;
 	font-weight: bold;
 	text-decoration: underline;
+	cursor: pointer;
 }
-
 </style>

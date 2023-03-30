@@ -62,8 +62,8 @@ export default {
 				<input class="sign-input" v-model="username" placeholder="Enter your username" />
 			</div>
 			<div class="OrContainer">
-				<hr>
-				<p class="OR">OR</p>
+				<hr />
+				<div class="OR">OR</div>
 			</div>
 			<div class="EmailInput">
 				<div class="paragraph">Email</div>
@@ -81,7 +81,14 @@ export default {
 			<div class="SignInButton">
 				<button class="sign-button" @click="login()">Sign in</button>
 				<div class="SignUp">
-					<div class="paragraph"><div class="inline">Need an account?</div><div class="inline"><div class="switchToSignUp" @click="switchToSignUp()">Register here</div></div></div>
+					<div class="paragraph">
+						<div class="inline">Need an account?</div>
+						<div class="inline">
+							<div class="switchToSignUp" @click="switchToSignUp()">
+								Register here
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="errorBox" v-if="error">
@@ -112,7 +119,7 @@ export default {
 	margin-top: 1rem;
 }
 .inline {
-	display: inline-block
+	display: inline-block;
 }
 .inline1 {
 	display: inline-block;
@@ -244,6 +251,7 @@ h1 {
 	margin-left: 5px;
 	font-weight: bold;
 	text-decoration: underline;
+	cursor: pointer;
 }
 
 .OrContainer {
@@ -258,14 +266,12 @@ hr {
 	width: 30rem;
 }
 .OR {
-	text-align:center; 
+	text-align: center;
 	color: #808080;
-	background:white; 
+	background: white;
 	padding: 5px;
-	position:absolute;
+	position: absolute;
 	margin-left: 15rem;
 	margin-top: 11px;
 }
-
 </style>
-
