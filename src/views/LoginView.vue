@@ -122,6 +122,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 1rem;
+
 }
 .inline {
 	display: inline-block

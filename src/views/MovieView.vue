@@ -1,10 +1,12 @@
 <script>
 import axios from "axios";
 import HashtagCard from "../components/HashtagCard.vue";
+import PlaylistModal from "../components/PlaylistModal.vue";
 
 export default {
 	components: {
-		HashtagCard
+		HashtagCard,
+		PlaylistModal
 	},
 	data() {
 		return {
@@ -13,7 +15,9 @@ export default {
 			actors: [],
 			poster_url: "",
 			hashtags: [],
-			hashtagBtnClicked: false
+			hashtagBtnClicked: false,
+			playlists: [],
+			playlistBtnClicked: false
 		};
 	},
 	methods: {
@@ -57,6 +61,28 @@ export default {
 			);
 			this.fetchHashtags(this.id);
 			this.addHashtagBtn();
+		},
+		togglePlaylistBtn() {
+			this.playlistBtnClicked = !this.playlistBtnClicked;
+		},
+		async fetchPlaylists() {
+			const username = this.$cookies.get("username")
+			const playlistResponse = await axios.get(
+				"http://localhost:8080/" + username + "/playlists/"
+			);
+			const playlists = JSON.parse(JSON.stringify(playlistResponse.data));
+
+			var items = [];
+			playlists.forEach((element) => {
+				items.push({
+					name: element.title,
+					description: element.description,
+					id: element.id
+				});
+			});
+
+			this.playlists = items;
+			console.log(this.playlists);
 		}
 	},
 	async mounted() {
@@ -64,11 +90,12 @@ export default {
 		await this.fetchActors(this.id);
 		this.sortActors();
 		await this.fetchHashtags(this.id);
+		await this.fetchPlaylists();
 	}
 };
 </script>
 <template>
-  <button @click="$router.push('/search')" class="back-button">Back</button>
+	<button @click="$router.push('/search')" class="back-button">Back</button>
 
 	<div class="title">
 		{{ movie.title }}
@@ -78,7 +105,7 @@ export default {
 	</div>
 
 	<hr class="hr" />
-			
+
 	<div class="outer-flex">
 		<div class="flex1">
 			<img class="poster" :src="poster_url" />
@@ -104,7 +131,7 @@ export default {
 			</div>
 
 			<div class="release">Release date: {{ "\xa0" + movie.release_date }}</div>
-			
+
 			<div class="hashtag">
 				<div class="hashtag-container">
 					<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
@@ -113,7 +140,7 @@ export default {
 					>Add tag</v-btn
 				>
 			</div>
-			
+
 			<div v-if="hashtagBtnClicked">
 				<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
 				<div class="btn-container">
@@ -121,6 +148,21 @@ export default {
 					<v-btn class="btn" @click="addHashtag(hashtagText)">Add</v-btn>
 				</div>
 			</div>
+			<div class="hashtag">
+				<v-btn class="btn" @click="togglePlaylistBtn()"> Add Movie to Playlist </v-btn>
+			</div>
+
+			<PlaylistModal
+				v-show="playlistBtnClicked"
+				@close-modal="playlistBtnClicked = false"
+				:playlists="playlists"
+			/>
+			<!--<PlaylistModal
+				v-model="playlistBtnClicked"
+				title="Hello World!"
+				@confirm="()=> togglePlaylistBtn()"
+				>
+			</PlaylistModal>-->
 		</div>
 	</div>
 </template>
@@ -147,11 +189,11 @@ export default {
 	width: 100rem;
 }
 
-.back-button{
+.back-button {
 	margin-top: 1rem;
 	margin-left: 1rem;
 	width: 75px;
-	height:30px;
+	height: 30px;
 	border: none;
 	color: hsla(260, 41%, 35%, 0.785);
 	cursor: pointer;
@@ -163,7 +205,7 @@ export default {
 	font-weight: bold;
 	padding: 0.5rem;
 	text-align: center;
-	padding-top:0px;
+	padding-top: 0px;
 }
 
 .poster {
