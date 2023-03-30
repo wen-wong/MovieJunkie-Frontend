@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import NavBar from "@/components/NavBar.vue";
 import MovieCard from "@/components/MovieCard.vue";
 
 function convertToChip(tags) {
@@ -25,7 +26,8 @@ function convertHashtagToString(tagList) {
 
 export default {
 	components: {
-		MovieCard
+		MovieCard,
+		NavBar
 	},
 	data() {
 		return {
@@ -49,6 +51,7 @@ export default {
 					`http://localhost:8080/movie/search/hashtags?hashtags=${name}`
 				);
 				const movieIdList = movieIdResponse.data.map((it) => it.id);
+				this.movieList = [];
 				movieIdList.forEach(async (it) => {
 					const movieResponse = await axios.get(`http://localhost:8080/movie/tmdb/${it}`);
 					this.movieList.push(movieResponse.data);
@@ -90,7 +93,10 @@ export default {
 };
 </script>
 <template>
+	<div class="play-background"></div>
+	<NavBar />
 	<div class="search-tag-container">
+		<div class="tag-title">Let's search movies with hashtags</div>
 		<div class="tag-container">
 			<div class="tag-list-title">Choose your favorite tags</div>
 			<div class="tag-list-search-container">
@@ -127,7 +133,6 @@ export default {
 </template>
 <style>
 .search-tag-container {
-	margin: 5rem 0rem;
 	width: 100vw;
 	height: 100%;
 	display: flex;
@@ -136,11 +141,19 @@ export default {
 	align-items: center;
 }
 .tag-container {
-	width: 60%;
+	width: 55rem;
+	margin-top: 4rem;
 	padding: 2rem;
 	background-color: white;
 	border-radius: 1rem;
 	box-shadow: 0px 5px 10px hsl(0, 0%, 50%);
+	z-index: 1;
+}
+.tag-title {
+	font-size: 1.953rem;
+	font-weight: bold;
+	margin-top: 10.5rem;
+	color: black;
 }
 .tag-list-title {
 	font-weight: bold;
