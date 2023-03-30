@@ -8,6 +8,7 @@ import AccountInformationView from "../views/AccountInformationView.vue";
 import LoginView from "../views/LoginView.vue";
 import SearchPlaylistView from "../views/SearchPlaylistView.vue";
 import PlaylistView from "../views/PlaylistView.vue";
+import SearchTagView from "../views/SearchTagView.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,10 @@ const router = createRouter({
 			path: "/playlists/:id",
 			name: "playlist",
 			component: PlaylistView
+		},
+		{	path: "/search_tag",
+			name: "search_tag",
+			component: SearchTagView
 		}
 	]
 });

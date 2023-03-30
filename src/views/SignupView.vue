@@ -29,11 +29,14 @@ export default {
 					this.$router.push("/search");
 				})
 				.catch((e) => {
-					let errorMsg = e.response.data;
+					let errorMsg = e.response.data.errorMsg;
 					console.log(errorMsg);
 					this.errorSignup = errorMsg;
 					this.error = true;
 				});
+		},
+		switchToLogin: function () {
+			this.$router.push("/login");
 		}
 	}
 };
@@ -74,7 +77,7 @@ export default {
 			<div class="SignUpButton">
 				<button class="sign-button" @click="createAccount()">Sign up</button>
 				<div class="LogIn">
-					<div class="paragraph">Already have an account? Log in</div>
+					<div class="paragraph"><div class="inline">Already have an account?</div><div class="inline"><div class="switchToLogin" @click="switchToLogin()"> Log in</div></div></div>
 				</div>
 			</div>
 			<div class="errorBox" v-if="error">
@@ -98,11 +101,14 @@ export default {
 	justify-content: space-around;
 }
 .information-container {
-	width: 30rem;
+	width: 27rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 1rem;
+}
+.inline {
+	display: inline-block
 }
 .inline1 {
 	display: inline-block;
@@ -148,24 +154,9 @@ h2 {
 	height: 50px;
 	color: white;
 	border-radius: 8px;
+	font-size: 1rem;
 }
-p {
-	font-family: "Roboto";
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 19px;
-	letter-spacing: 0em;
-	color: black;
-}
-h1 {
-	font-family: "Roboto";
-	font-size: 49px;
-	font-weight: 700;
-	line-height: 57px;
-	letter-spacing: 0em;
-	text-align: left;
-	color: black;
-}
+
 .LogIn {
 	text-align: center;
 }
@@ -174,7 +165,7 @@ h1 {
 	flex-direction: row;
 	justify-content: flex-start;
 	padding: 1rem 1rem;
-	width: 28rem;
+	width: 25rem;
 	top: 30px;
 	background: rgba(232, 125, 125, 0.3);
 	border-radius: 8px;
@@ -187,7 +178,6 @@ h1 {
 .errorText {
 	margin-left: 0.25rem;
 	font-size: 16px;
-	font-weight: bold;
 	line-height: 19px;
 	letter-spacing: 0em;
 	text-align: left;
@@ -229,4 +219,11 @@ h1 {
 	width: 60%;
 	border-radius: 3rem 0.5rem 3rem 0.5rem;
 }
+
+.switchToLogin {
+	margin-left: 5px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
 </style>
