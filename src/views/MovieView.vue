@@ -66,8 +66,9 @@ export default {
 			this.playlistBtnClicked = !this.playlistBtnClicked;
 		},
 		async fetchPlaylists() {
+			const username = this.$cookies.get("username")
 			const playlistResponse = await axios.get(
-				"http://localhost:8080/" + "tm" + "/playlists/"
+				"http://localhost:8080/" + username + "/playlists/"
 			);
 			const playlists = JSON.parse(JSON.stringify(playlistResponse.data));
 
