@@ -62,6 +62,7 @@ export default {
 				})
 				.catch((error) => {
 					console.log(error);
+				
 				});
 		},
 
@@ -93,6 +94,9 @@ export default {
 		},
 		logout() {
 			console.log("Logging out");
+			this.$cookies.set("username",null);
+			console.log(this.$cookies.get("username"));
+			this.$router.push("/login");
 		},
 
 		returnHome() {
