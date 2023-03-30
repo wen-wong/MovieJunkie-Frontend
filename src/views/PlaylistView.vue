@@ -2,118 +2,144 @@
 import axios from "axios";
 import NavBar from "@/components/NavBar.vue";
 
+function swapMovies(playlist, firstIndex, secondIndex) {
+	const temporary = playlist[firstIndex];
+	playlist[firstIndex] = playlist[secondIndex];
+	playlist[secondIndex] = temporary;
+}
+
 export default {
 	components: {
 		NavBar
 	},
 	data() {
 		return {
-			playlist: {
-				id:0,
-				accountDTO: {
-					username: "hello"
-				},
-				title: "Qui tempor velit Lorem ullamco commodo proident.",
-				description:
-					"Anim incididunt excepteur aute fugiat exercitation nostrud. Aute velit non dolor est aute ea enim non laborum ipsum id. Quis commodo nisi exercitation in pariatur tempor amet culpa quis proident ea sunt nulla. Irure amet quis ex esse anim pariatur voluptate exercitation elit.",
-				movieDTOList: [
-					{
-						title: "Ea aute ex ut ipsum quis dolore magna esse sunt irure in esse ad.",
-						overview:
-							"Cillum nulla deserunt aliqua ea aliquip ut esse in dolor aliquip. Fugiat non adipisicing officia et ad esse ipsum consectetur dolor. Occaecat Lorem ex occaecat tempor quis eiusmod laborum.",
-						id: 1
-					},
-					{
-						title: "Ea aute ex ut ipsum quis dolore magna esse sunt irure in esse ad.",
-						overview:
-							"Cillum nulla deserunt aliqua ea aliquip ut esse in dolor aliquip. Fugiat non adipisicing officia et ad esse ipsum consectetur dolor. Occaecat Lorem ex occaecat tempor quis eiusmod laborum.",
-						id: 1
-					},
-					{
-						title: "Ea aute ex ut ipsum quis dolore magna esse sunt irure in esse ad.",
-						overview:
-							"Cillum nulla deserunt aliqua ea aliquip ut esse in dolor aliquip. Fugiat non adipisicing officia et ad esse ipsum consectetur dolor. Occaecat Lorem ex occaecat tempor quis eiusmod laborum.",
-						id: 1
-					},
-					{
-						title: "Ea aute ex ut ipsum quis dolore magna esse sunt irure in esse ad.",
-						overview:
-							"Cillum nulla deserunt aliqua ea aliquip ut esse in dolor aliquip. Fugiat non adipisicing officia et ad esse ipsum consectetur dolor. Occaecat Lorem ex occaecat tempor quis eiusmod laborum.",
-						id: 1
-					},
-					{
-						title: "Ea aute ex ut ipsum quis dolore magna esse sunt irure in esse ad.",
-						overview:
-							"Cillum nulla deserunt aliqua ea aliquip ut esse in dolor aliquip. Fugiat non adipisicing officia et ad esse ipsum consectetur dolor. Occaecat Lorem ex occaecat tempor quis eiusmod laborum.",
-						id: 1
-					}
-				]
-			}
+			id: window.location.pathname.split("/")[2],
+			playlist: null,
+			isPlaylist: false
 		};
-	},methods: {
-    editPlaylistOrderUp(playlistID, movieID) {
-      const cookie = decodeURIComponent(document.cookie).split("=")[1];
-      const movieIndex = this.playlist.movieDTOList.findIndex(movie => movie.id === movieID);
-
-      if (movieIndex > 0) {
-        const previousMovie = this.playlist.movieDTOList[movieIndex - 1];
-        this.$set(this.playlist.movieDTOList, movieIndex - 1, this.playlist.movieDTOList[movieIndex]);
-        this.$set(this.playlist.movieDTOList, movieIndex, previousMovie);
-        axios.post(`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/1/edit-order`)
-            .catch((error) => {
-              console.log(error);
-            });
-      }
-    },
-    editPlaylistOrderDown(playlistID, movieID) {
-      const cookie = decodeURIComponent(document.cookie).split("=")[1];
-      const movieIndex = this.playlist.movieDTOList.findIndex(movie => movie.id === movieID);
-
-      if (movieIndex < this.playlist.movieDTOList.length - 1) {
-        const nextMovie = this.playlist.movieDTOList[movieIndex + 1];
-        this.$set(this.playlist.movieDTOList, movieIndex + 1, this.playlist.movieDTOList[movieIndex]);
-        this.$set(this.playlist.movieDTOList, movieIndex, nextMovie);
-        axios.post(`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/0/edit-order`)
-            .catch((error) => {
-              console.log(error);
-            });
-      }
-    }
-  }
+	},
+	methods: {
+		findMovie(movies, movieID) {
+			for (let i = 0; i < movies.length; i++) {
+				if (movieID == movies[i].id) return i;
+			}
+			return -1;
+		},
+		async editPlaylistOrderUp(movieID, index) {
+			if (index > this.playlist.movieDTOList.length || index == 0) return;
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			await axios
+				.put(
+					`http://localhost:8080/${cookie}/playlist/${this.playlist.id}/${movieID}/1/edit-order`
+				)
+				.then(() => {
+					swapMovies(this.playlist.movieDTOList, index - 1, index);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		async editPlaylistOrderDown(movieID, index) {
+			if (index == this.playlist.movieDTOList.length - 1) return;
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			await axios
+				.put(
+					`http://localhost:8080/${cookie}/playlist/${this.playlist.id}/${movieID}/0/edit-order`
+				)
+				.then(() => {
+					swapMovies(this.playlist.movieDTOList, index, index + 1);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		async fetchPlaylist() {
+			await axios
+				.get(`http://localhost:8080/playlist/${this.id}`)
+				.then((result) => {
+					this.playlist = result.data;
+					this.isPlaylist = true;
+					this.playlist.movieDTOList = this.playlist.movieDTOList.map(async (it) => {
+						const movieResponse = await axios.get(
+							`http://localhost:8080/movie/tmdb/${it.id}`
+						);
+						let movie = movieResponse.data;
+						return {
+							id: it.id,
+							title: movie.title,
+							overview: movie.overview,
+							hashtags: it.hashtags
+						};
+					});
+				})
+				.catch(() => {
+					this.isPlaylist = false;
+				});
+		},
+		async returnHome(movieID, index) {
+			const cookie = decodeURIComponent(document.cookie).split("=")[1];
+			await axios
+				.put(
+					`http://localhost:8080/${cookie}/playlist/${this.playlist.id}/remove-movie?movieId=${movieID}`
+				)
+				.then(() => {
+					this.playlist.movieDTOList.splice(index, 1);
+				});
+		},
+		routeToMovie(movieId) {
+			this.$router.push({ name: "movie", params: { id: `${movieId}` } });
+		}
+	},
+	async mounted() {
+		this.fetchPlaylist();
+	}
 };
 </script>
 <template>
 	<div class="playlist-background"></div>
 	<NavBar />
-	<div class="playlist-container">
+	<div v-if="isPlaylist" class="playlist-container">
 		<div class="playlist-content">
 			<div class="playlist-title">{{ playlist.title }}</div>
 			<div class="playlist-description">{{ playlist.description }}</div>
 			<div class="playlist-author">Created by {{ playlist.accountDTO.username }}</div>
 		</div>
 		<div class="playlist-movies-container">
-			<div class="playlist-movie-item" v-for="movie in playlist.movieDTOList">
+			<div
+				class="playlist-movie-item"
+				v-for="(movie, index) in playlist.movieDTOList"
+				:key="movie.id"
+			>
 				<div class="playlist-movie-manage">
 					<img
-						class="nav-item nav-icon"
+						:class="{
+							'playlist-item playlist-icon': index != 0,
+							'playlist-inv': index == 0
+						}"
 						src="../assets/icons/arrow_upward_24px.svg"
 						alt="moviejunkie-logo"
-						@click="editPlaylistOrderUp(playlist.id,movie.id)"
+						@click="editPlaylistOrderUp(movie.id, index)"
 					/>
+
 					<img
-						class="nav-item nav-icon"
+						class="playlist-item playlist-icon"
 						src="../assets/icons/delete_forever_24px.svg"
 						alt="moviejunkie-logo"
-						@click="returnHome"
+						@click="returnHome(movie.id, index)"
 					/>
 					<img
-						class="nav-item nav-icon"
+						:class="{
+							'playlist-item playlist-icon':
+								index != playlist.movieDTOList.length - 1,
+							'playlist-inv': index == playlist.movieDTOList.length - 1
+						}"
 						src="../assets/icons/arrow_downward_24px.svg"
 						alt="moviejunkie-logo"
-						@click="editPlaylistOrderDown(playlist.id,movie.id)"
+						@click="editPlaylistOrderDown(movie.id, index)"
 					/>
 				</div>
-				<div class="playlist-movie-content">
+				<div class="playlist-movie-content" @click="routeToMovie(movie.id)">
 					<div class="playlist-movie-title">{{ movie.title }}</div>
 					<div>{{ movie.overview }}</div>
 				</div>
@@ -142,7 +168,10 @@ export default {
 	width: 60rem;
 }
 .playlist-movies-container {
-	margin-top: 6rem;
+	margin-top: 8rem;
+}
+.playlist-movie-content {
+	width: 100%;
 }
 .playlist-movie-item {
 	display: flex;
@@ -184,5 +213,11 @@ export default {
 .playlist-author {
 	margin-top: 1rem;
 	color: grey;
+}
+.playlist-item {
+	z-index: 10;
+}
+.playlist-inv {
+	visibility: hidden;
 }
 </style>
