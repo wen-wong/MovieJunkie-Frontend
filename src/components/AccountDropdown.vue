@@ -52,14 +52,16 @@ export default {
 	padding: 0.5rem;
 	border: 1px solid #ccc;
 	cursor: pointer;
-	background-color: #fff;
 	/*width: 15rem;*/
 	width: 30px;
 	height: 30px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	background: grey;
+	background-image: url("../assets/images/dog-unsplash.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .dropdown-menu {

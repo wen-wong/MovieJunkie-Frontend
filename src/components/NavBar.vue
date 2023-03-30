@@ -62,7 +62,6 @@ export default {
 				})
 				.catch((error) => {
 					console.log(error);
-				
 				});
 		},
 
@@ -96,7 +95,7 @@ export default {
 		},
 		logout() {
 			console.log("Logging out");
-			this.$cookies.set("username",null);
+			this.$cookies.set("username", null);
 			console.log(this.$cookies.get("username"));
 			this.$router.push("/login");
 		},
@@ -131,12 +130,10 @@ export default {
 			</router-link>
 		</div>
 		<div class="nav-item-container nav-right">
-			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
 				:options="['Edit Account', 'Delete Account', 'Create Playlist']"
 				@optionSelected="handleOptionSelected"
 			/>
-			<!--      </button>-->
 			<img
 				class="nav-item nav-icon"
 				src="../assets/icons/exit_to_app_30px.svg"
