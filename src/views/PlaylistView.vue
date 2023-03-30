@@ -50,29 +50,36 @@ export default {
 				]
 			}
 		};
-	},methods:{
-			editPlaylistOrderUp(playlistID, movieID) {
-			const cookie = decodeURIComponent(document.cookie).split("=")[1];
-			axios
-				.post(
-					`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/1/edit-order`
-				)
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-		editPlaylistOrderDown(playlistID, movieID) {
-			const cookie = decodeURIComponent(document.cookie).split("=")[1];
-			axios
-				.post(
-					`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/0/edit-order`
-				)
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-	}
-	
+	},methods: {
+    editPlaylistOrderUp(playlistID, movieID) {
+      const cookie = decodeURIComponent(document.cookie).split("=")[1];
+      const movieIndex = this.playlist.movieDTOList.findIndex(movie => movie.id === movieID);
+
+      if (movieIndex > 0) {
+        const previousMovie = this.playlist.movieDTOList[movieIndex - 1];
+        this.$set(this.playlist.movieDTOList, movieIndex - 1, this.playlist.movieDTOList[movieIndex]);
+        this.$set(this.playlist.movieDTOList, movieIndex, previousMovie);
+        axios.post(`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/1/edit-order`)
+            .catch((error) => {
+              console.log(error);
+            });
+      }
+    },
+    editPlaylistOrderDown(playlistID, movieID) {
+      const cookie = decodeURIComponent(document.cookie).split("=")[1];
+      const movieIndex = this.playlist.movieDTOList.findIndex(movie => movie.id === movieID);
+
+      if (movieIndex < this.playlist.movieDTOList.length - 1) {
+        const nextMovie = this.playlist.movieDTOList[movieIndex + 1];
+        this.$set(this.playlist.movieDTOList, movieIndex + 1, this.playlist.movieDTOList[movieIndex]);
+        this.$set(this.playlist.movieDTOList, movieIndex, nextMovie);
+        axios.post(`http://localhost:8080/${cookie}/playlist/${playlistID}/${movieID}/0/edit-order`)
+            .catch((error) => {
+              console.log(error);
+            });
+      }
+    }
+  }
 };
 </script>
 <template>
