@@ -89,8 +89,8 @@ export default {
 		await this.fetchMovie(this.id);
 		await this.fetchActors(this.id);
 		this.sortActors();
-		await this.fetchHashtags(this.id);
 		await this.fetchPlaylists();
+		await this.fetchHashtags(this.id);
 	}
 };
 </script>

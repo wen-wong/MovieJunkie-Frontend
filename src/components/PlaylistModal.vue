@@ -11,6 +11,13 @@ export default {
 				if (item.firstChild.firstChild.checked) {
 					const playlistId = item.lastChild.textContent;
 					const username = this.$cookies.get("username");
+
+					const response = await axios
+						.get(`http://localhost:8080/movie/${movieId}`)
+						.catch(async () => {
+							await axios.post(`http://localhost:8080/movie/${movieId}`);
+						});
+
 					await axios.put(
 						"http://localhost:8080/" +
 							username +
