@@ -14,18 +14,28 @@ export default {
 
 					const response = await axios
 						.get(`http://localhost:8080/movie/${movieId}`)
+						.then(
+							async () =>
+								await axios.put(
+									"http://localhost:8080/" +
+										username +
+										"/playlist/" +
+										playlistId +
+										"/add/?movieIds=" +
+										movieId
+								)
+						)
 						.catch(async () => {
 							await axios.post(`http://localhost:8080/movie/${movieId}`);
+							await axios.put(
+								"http://localhost:8080/" +
+									username +
+									"/playlist/" +
+									playlistId +
+									"/add/?movieIds=" +
+									movieId
+							);
 						});
-
-					await axios.put(
-						"http://localhost:8080/" +
-							username +
-							"/playlist/" +
-							playlistId +
-							"/add/?movieIds=" +
-							movieId
-					);
 				}
 			}
 		},
@@ -105,7 +115,6 @@ export default {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
-	overflow-y: scroll;
 }
 .modal-item {
 	margin: 0.5rem 0rem;
