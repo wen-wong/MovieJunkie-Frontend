@@ -17,7 +17,8 @@ export default {
 			hashtags: [],
 			hashtagBtnClicked: false,
 			playlists: [],
-			playlistBtnClicked: false
+			playlistBtnClicked: false,
+			hashtagText: ""
 		};
 	},
 	methods: {
@@ -82,7 +83,6 @@ export default {
 			});
 
 			this.playlists = items;
-			console.log(this.playlists);
 		}
 	},
 	async mounted() {
@@ -95,69 +95,81 @@ export default {
 };
 </script>
 <template>
-	<button @click="$router.push('/search')" class="btn back-button">Back</button>
-	<div class="movie-container">
-		<div class="movie-header">
-			<div class="title">
-				{{ movie.title }}
+	<div class="movie-content-container">
+		<button @click="$router.push('/search')" class="btn back-button">Back</button>
+		<div class="movie-container">
+			<div class="movie-header">
+				<div class="title">
+					{{ movie.title }}
+				</div>
+				<hr class="hr" />
 			</div>
-			<hr class="hr" />
-		</div>
-		<div class="movie-poster">
-			<img class="poster" :src="poster_url" />
-			<div class="tagline">"{{ movie.tagline }}"</div>
-		</div>
-		<div class="movie-content">
-			<div class="flex2">
-				<div class="overview">
-					{{ movie.overview }}
-				</div>
-				<div class="starring">Starring</div>
-				<div>
-					<div class="actors" v-for="actor in actors.slice(0, 7)">
-						{{ actor.name + ",\xa0 " }}
+			<div class="movie-poster">
+				<img class="poster" :src="poster_url" />
+				<div class="tagline">"{{ movie.tagline }}"</div>
+			</div>
+			<div class="movie-content">
+				<div class="flex2">
+					<div class="overview">
+						{{ movie.overview }}
+					</div>
+					<div class="starring">Starring</div>
+					<div>
+						<div class="actors" v-for="actor in actors.slice(0, 7)">
+							{{ actor.name + ",\xa0 " }}
+						</div>
+					</div>
+					<div class="rating">
+						Rating:
+						<span class="movie-descr"
+							>{{ "\xa0" + Math.round(movie.vote_average * 100) / 10 }} %</span
+						>
+					</div>
+					<div class="release">
+						Release date:
+						<span class="movie-descr">{{ "\xa0" + movie.release_date }}</span>
+					</div>
+					<div class="hashtag">
+						<div class="hashtag-container">
+							<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
+						</div>
+						<button class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked">
+							Add tag
+						</button>
+					</div>
+					<div v-if="hashtagBtnClicked">
+						<input
+							class="hashtag-bar"
+							placeholder="Add a hashtag"
+							v-model="hashtagText"
+						/>
+						<div class="btn-container">
+							<button class="btn" @click="addHashtagBtn()">Cancel</button>
+							<button class="btn" @click="addHashtag(hashtagText)">Add</button>
+						</div>
+					</div>
+					<div class="hashtag">
+						<button class="btn" @click="togglePlaylistBtn()">
+							Add Movie to Playlist
+						</button>
 					</div>
 				</div>
-				<div class="rating">
-					Rating:
-					<span class="movie-descr"
-						>{{ "\xa0" + Math.round(movie.vote_average * 100) / 10 }} %</span
-					>
-				</div>
-				<div class="release">
-					Release date: <span class="movie-descr">{{ "\xa0" + movie.release_date }}</span>
-				</div>
-				<div class="hashtag">
-					<div class="hashtag-container">
-						<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
-					</div>
-					<button class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked">
-						Add tag
-					</button>
-				</div>
-				<div v-if="hashtagBtnClicked">
-					<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
-					<div class="btn-container">
-						<button class="btn" @click="addHashtagBtn()">Cancel</button>
-						<button class="btn" @click="addHashtag(hashtagText)">Add</button>
-					</div>
-				</div>
-				<div class="hashtag">
-					<button class="btn" @click="togglePlaylistBtn()">Add Movie to Playlist</button>
-				</div>
-				<PlaylistModal
-					v-show="playlistBtnClicked"
-					@close-modal="playlistBtnClicked = false"
-					:playlists="playlists"
-				/>
 			</div>
 		</div>
+		<PlaylistModal
+			class="playlist-modal"
+			v-show="playlistBtnClicked"
+			@close-modal="playlistBtnClicked = false"
+			:playlists="playlists"
+		/>
 	</div>
-
-	<div class="outer-flex"></div>
 </template>
 
 <style>
+.movie-content-container {
+	width: 100vw;
+	height: 100%;
+}
 .movie-container {
 	width: 100vw;
 	height: 100%;
@@ -302,5 +314,10 @@ export default {
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0), rgba(0, 0, 0, 0));
 	width: 80%;
 	margin: auto;
+}
+.playlist-modal {
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 </style>
