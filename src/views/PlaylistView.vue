@@ -16,7 +16,8 @@ export default {
 		return {
 			id: window.location.pathname.split("/")[2],
 			playlist: null,
-			isPlaylist: false
+			isPlaylist: false,
+			movieList: []
 		};
 	},
 	methods: {
@@ -34,6 +35,7 @@ export default {
 					`http://localhost:8080/${cookie}/playlist/${this.playlist.id}/${movieID}/1/edit-order`
 				)
 				.then(() => {
+					swapMovies(this.movieList, index - 1, index);
 					swapMovies(this.playlist.movieDTOList, index - 1, index);
 				})
 				.catch((error) => {
@@ -48,30 +50,32 @@ export default {
 					`http://localhost:8080/${cookie}/playlist/${this.playlist.id}/${movieID}/0/edit-order`
 				)
 				.then(() => {
+					swapMovies(this.movieList, index, index + 1);
 					swapMovies(this.playlist.movieDTOList, index, index + 1);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
+		async fetchMovies(movies) {
+			movies.forEach(async (it) => {
+				const response = await axios.get(`http://localhost:8080/movie/tmdb/${it.id}`);
+				this.movieList.push({
+					id: it.id,
+					title: response.data.title,
+					overview: response.data.overview,
+					hashtags: it.hashtags
+				});
+				return;
+			});
+		},
 		async fetchPlaylist() {
 			await axios
 				.get(`http://localhost:8080/playlist/${this.id}`)
-				.then((result) => {
+				.then(async (result) => {
 					this.playlist = result.data;
 					this.isPlaylist = true;
-					this.playlist.movieDTOList = this.playlist.movieDTOList.map(async (it) => {
-						const movieResponse = await axios.get(
-							`http://localhost:8080/movie/tmdb/${it.id}`
-						);
-						let movie = movieResponse.data;
-						return {
-							id: it.id,
-							title: movie.title,
-							overview: movie.overview,
-							hashtags: it.hashtags
-						};
-					});
+					this.fetchMovies(this.playlist.movieDTOList);
 				})
 				.catch(() => {
 					this.isPlaylist = false;
@@ -85,6 +89,7 @@ export default {
 				)
 				.then(() => {
 					this.playlist.movieDTOList.splice(index, 1);
+					this.movieList.splice(index, 1);
 				});
 		},
 		routeToMovie(movieId) {
@@ -106,11 +111,7 @@ export default {
 			<div class="playlist-author">Created by {{ playlist.accountDTO.username }}</div>
 		</div>
 		<div class="playlist-movies-container">
-			<div
-				class="playlist-movie-item"
-				v-for="(movie, index) in playlist.movieDTOList"
-				:key="movie.id"
-			>
+			<div class="playlist-movie-item" v-for="(movie, index) in movieList" :key="movie.id">
 				<div class="playlist-movie-manage">
 					<img
 						:class="{
