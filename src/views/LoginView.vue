@@ -16,6 +16,18 @@ export default {
 	methods: {
 		/* login - uses Axios to login to the account */
 		login: function () {
+			if (this.username == "") {
+				this.username = null;
+			}
+
+			if (this.email == "") {
+				this.email = null;
+			}
+
+			if (this.password == "") {
+				this.password = null;
+			}
+
 			let responseBody = {
 				username: this.username,
 				password: this.password,
@@ -117,6 +129,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 1rem;
+
 }
 .inline {
 	display: inline-block;

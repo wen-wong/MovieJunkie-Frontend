@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import VueCookie from 'vue-cookies'
+import VueCookie from "vue-cookies";
 
 import "./assets/main.css";
 
