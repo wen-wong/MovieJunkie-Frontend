@@ -38,7 +38,6 @@ export default {
 				.then((response) => {
 					this.$cookies.set("username", response.data.username);
 					this.$router.push("/search");
-					console.log(this.$cookies.get("username"));
 				})
 				.catch((e) => {
 					let errorMsg = e.response.data.errorMsg;
@@ -129,7 +128,6 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	margin-top: 1rem;
-
 }
 .inline {
 	display: inline-block;
