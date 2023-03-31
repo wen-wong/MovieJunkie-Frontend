@@ -66,7 +66,7 @@ export default {
 			this.playlistBtnClicked = !this.playlistBtnClicked;
 		},
 		async fetchPlaylists() {
-			const username = this.$cookies.get("username")
+			const username = this.$cookies.get("username");
 			const playlistResponse = await axios.get(
 				"http://localhost:8080/" + username + "/playlists/"
 			);
@@ -95,79 +95,92 @@ export default {
 };
 </script>
 <template>
-	<button @click="$router.push('/search')" class="back-button">Back</button>
-
-	<div class="title">
-		{{ movie.title }}
-		<!-- {{ movie.release_date }}  this works
-		{{ movie.release_date.split("-")[0] }} -->
-		<!--but this somehow doesn't-->
-	</div>
-
-	<hr class="hr" />
-
-	<div class="outer-flex">
-		<div class="flex1">
+	<button @click="$router.push('/search')" class="btn back-button">Back</button>
+	<div class="movie-container">
+		<div class="movie-header">
+			<div class="title">
+				{{ movie.title }}
+			</div>
+			<hr class="hr" />
+		</div>
+		<div class="movie-poster">
 			<img class="poster" :src="poster_url" />
-
 			<div class="tagline">"{{ movie.tagline }}"</div>
 		</div>
-
-		<div class="flex2">
-			<div class="overview">
-				{{ movie.overview }}
-			</div>
-
-			<div class="starring">Starring</div>
-
-			<div>
-				<div class="actors" v-for="actor in actors.slice(0, 7)">
-					{{ actor.name + ",\xa0 " }}
+		<div class="movie-content">
+			<div class="flex2">
+				<div class="overview">
+					{{ movie.overview }}
 				</div>
-			</div>
-
-			<div class="rating">
-				Rating: {{ "\xa0" + Math.round(movie.vote_average * 100) / 10 }} %
-			</div>
-
-			<div class="release">Release date: {{ "\xa0" + movie.release_date }}</div>
-
-			<div class="hashtag">
-				<div class="hashtag-container">
-					<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
+				<div class="starring">Starring</div>
+				<div>
+					<div class="actors" v-for="actor in actors.slice(0, 7)">
+						{{ actor.name + ",\xa0 " }}
+					</div>
 				</div>
-				<v-btn class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked"
-					>Add tag</v-btn
-				>
-			</div>
-
-			<div v-if="hashtagBtnClicked">
-				<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
-				<div class="btn-container">
-					<v-btn class="btn" @click="addHashtagBtn()">Cancel</v-btn>
-					<v-btn class="btn" @click="addHashtag(hashtagText)">Add</v-btn>
+				<div class="rating">
+					Rating:
+					<span class="movie-descr"
+						>{{ "\xa0" + Math.round(movie.vote_average * 100) / 10 }} %</span
+					>
 				</div>
+				<div class="release">
+					Release date: <span class="movie-descr">{{ "\xa0" + movie.release_date }}</span>
+				</div>
+				<div class="hashtag">
+					<div class="hashtag-container">
+						<HashtagCard v-for="hashtag in hashtags" :title="hashtag.text" />
+					</div>
+					<button class="btn" @click="addHashtagBtn()" v-if="!hashtagBtnClicked">
+						Add tag
+					</button>
+				</div>
+				<div v-if="hashtagBtnClicked">
+					<input class="hashtag-bar" placeholder="Add a hashtag" v-model="hashtagText" />
+					<div class="btn-container">
+						<button class="btn" @click="addHashtagBtn()">Cancel</button>
+						<button class="btn" @click="addHashtag(hashtagText)">Add</button>
+					</div>
+				</div>
+				<div class="hashtag">
+					<button class="btn" @click="togglePlaylistBtn()">Add Movie to Playlist</button>
+				</div>
+				<PlaylistModal
+					v-show="playlistBtnClicked"
+					@close-modal="playlistBtnClicked = false"
+					:playlists="playlists"
+				/>
 			</div>
-			<div class="hashtag">
-				<v-btn class="btn" @click="togglePlaylistBtn()"> Add Movie to Playlist </v-btn>
-			</div>
-
-			<PlaylistModal
-				v-show="playlistBtnClicked"
-				@close-modal="playlistBtnClicked = false"
-				:playlists="playlists"
-			/>
-			<!--<PlaylistModal
-				v-model="playlistBtnClicked"
-				title="Hello World!"
-				@confirm="()=> togglePlaylistBtn()"
-				>
-			</PlaylistModal>-->
 		</div>
 	</div>
+
+	<div class="outer-flex"></div>
 </template>
 
 <style>
+.movie-container {
+	width: 100vw;
+	height: 100%;
+	display: grid;
+	align-items: center;
+	grid-template-areas:
+		"header header header header"
+		"sidebar main main main";
+}
+.movie-header {
+	grid-area: header;
+	margin-bottom: 1rem;
+}
+.movie-poster {
+	grid-area: sidebar;
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+	align-self: flex-start;
+}
+.movie-content {
+	grid-area: main;
+}
 .outer-flex {
 	display: flex;
 	flex-direction: row;
@@ -183,17 +196,12 @@ export default {
 .flex2 {
 	display: flex;
 	flex-direction: column;
-	margin: 1rem;
-	margin-right: 10rem;
-	margin-left: 3rem;
-	width: 100rem;
+	margin: 1rem 1rem 1rem 3rem;
 }
 
 .back-button {
-	margin-top: 1rem;
-	margin-left: 1rem;
-	width: 75px;
-	height: 30px;
+	margin-top: 1rem !important;
+	margin-left: 1rem !important;
 	border: none;
 	color: hsla(260, 41%, 35%, 0.785);
 	cursor: pointer;
@@ -209,7 +217,7 @@ export default {
 }
 
 .poster {
-	border-radius: 8%;
+	border-radius: 0.5rem;
 	border: 0.1rem solid black;
 }
 
@@ -223,18 +231,24 @@ export default {
 }
 
 .starring {
-	font-size: 1rem;
+	font-size: 1.25rem;
+	font-weight: bold;
 	margin-top: 1rem;
 }
 
 .rating {
-	font-size: 1rem;
+	font-size: 1.25rem;
+	font-weight: bold;
 	margin-top: 1rem;
 }
 
 .release {
-	font-size: 1rem;
-	margin-top: 1rem;
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.movie-descr {
+	font-weight: normal;
 }
 
 .hashtag {
@@ -253,11 +267,13 @@ export default {
 
 .btn {
 	margin: 0.5rem 0.25rem;
-	padding: 0.5rem 1rem;
+	padding: 0.75rem 1.25rem;
 	border-radius: 0.5rem;
 	color: hsla(260, 41%, 35%, 0.785);
+	font-size: 1rem;
+	border: none;
+	background: hsla(260, 35%, 60%, 0.25);
 	cursor: pointer;
-	background-color: hsla(260, 35%, 60%, 0.25);
 }
 
 .btn:hover {
@@ -276,14 +292,8 @@ export default {
 }
 
 .overview {
-	/* width: 80vh;
-  padding: 1rem;
-	min-height: 10rem;
-	border: 0.01rem solid grey;
-  background-color: rgb(230, 227, 232);
-	color: rgb(0, 0, 0);
-	border-radius: 0.5rem; */
-	font-size: 0.9rem;
+	font-size: 1rem;
+	overflow-wrap: break-word;
 }
 
 .hr {
