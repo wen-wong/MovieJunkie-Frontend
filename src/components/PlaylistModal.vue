@@ -5,57 +5,78 @@ export default {
 	methods: {
 		async addMovieToPlaylist() {
 			const tableRows = document.getElementsByClassName("playlist-row");
-			console.log(tableRows);
 			const movieId = window.location.pathname.split("/")[2];
 
 			for (let item of tableRows) {
-				if (item.lastChild.firstChild.checked) {
-					console.log(item.firstChild.textContent);
-					const playlistId = item.firstChild.textContent;
-					const username = this.$cookies.get("username")
-					const response = await axios.put(
-						"http://localhost:8080/" +
-							username +
-							"/playlist/" +
-							playlistId +
-							"/add/?movieIds=" +
-							movieId
-					);
-					console.log(response);
+				if (item.firstChild.firstChild.checked) {
+					const playlistId = item.lastChild.textContent;
+					const username = this.$cookies.get("username");
+
+					const response = await axios
+						.get(`http://localhost:8080/movie/${movieId}`)
+						.then(
+							async () =>
+								await axios.put(
+									"http://localhost:8080/" +
+										username +
+										"/playlist/" +
+										playlistId +
+										"/add/?movieIds=" +
+										movieId
+								)
+						)
+						.catch(async () => {
+							await axios.post(`http://localhost:8080/movie/${movieId}`);
+							await axios.put(
+								"http://localhost:8080/" +
+									username +
+									"/playlist/" +
+									playlistId +
+									"/add/?movieIds=" +
+									movieId
+							);
+						});
 				}
 			}
-
-			console.log();
 		},
 		submitModal() {
 			this.addMovieToPlaylist();
-			console.log("Closing modal");
 			this.$emit("close-modal", 0);
 		}
-	}
+	},
+	async mounted() {}
 };
 </script>
 
 <template>
 	<div class="modal-overlay" @click="$emit('close-modal')">
-		<div class="modal" @click.stop>
-			<div >
-				<div class="title">Choose a Playlist</div>
-				<table class="table-layout">
-					<thead slot="head">
-						<th>Id</th>
-						<th>Name</th>
-						<th>Select Playlist</th>
-					</thead>
-					<tbody slot="body" slot-scope="{ playlists }">
-						<tr class="playlist-row" v-for="row in playlists" :row="row">
-							<td>{{ row.id }}</td>
-							<td>{{ row.name }}</td>
-							<td><input type="checkbox" name="name1" class="checkbox"/></td>
-						</tr>
-					</tbody>
-				</table>
-				<v-btn class="btn-modal" @click="submitModal()"> Submit </v-btn>
+		<div class="modal">
+			<img
+				class="playlist-modal-icon"
+				src="../assets/icons/clear_24px.svg"
+				alt="exit-logo"
+				@click="$emit('close-modal')"
+			/>
+			<div class="modal-container" @click.stop>
+				<div style="width: 100%">
+					<div class="playlist-modal-title">Choose a Playlist</div>
+					<table class="table-layout">
+						<tbody slot="body" slot-scope="{ playlists }">
+							<tr
+								class="playlist-row playlist-modal-content"
+								v-for="row in playlists"
+								:row="row"
+							>
+								<td><input type="checkbox" name="name1" class="checkbox" /></td>
+								<td>{{ row.name }}</td>
+								<td>
+									<span style="color: transparent">{{ row.id }}</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<button class="btn-modal" @click="submitModal()">Submit</button>
 			</div>
 		</div>
 	</div>
@@ -63,55 +84,77 @@ export default {
 
 <style scoped>
 .modal-overlay {
-	color: hsl(260, 78%, 78%);
-	position: absolute;
-    top:0;
-    left: 0;
-    right: 0;
-    
-    margin: auto;
+	color: black;
+	background-color: rgba(0, 0, 0, 0.7);
+	width: 100vw;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 }
 
 .modal {
-	text-align: center;
-	outline-color: white;
-	background-color:  rgb(34, 34, 34);
-	outline-width: 2;
-	margin-top: 10%;
-	padding: 60px 0;
-	border-radius: 20px;	
-	justify-content: center;
+	width: 25rem;
+	height: 30%;
+	min-height: 5rem;
+	background-color: white;
+	margin-top: 15%;
+	border-radius: 8px;
+	padding: 0rem 2rem 3rem;
 }
-
+.modal-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+.playlist-modal-title {
+	font-size: 1.953rem;
+	font-weight: bold;
+}
+.playlist-modal-content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+.modal-item {
+	margin: 0.5rem 0rem;
+}
 .container-div {
-	background-color: #222222;
+	background-color: white;
 }
 
 .table-layout {
 	table-layout: fixed;
-    width: 300px;
-	
+	width: 300px;
 }
 
 .playlist-row {
-	margin-top: 10%;
-	padding: 30px 0;
+	margin: 0.5rem;
 	text-align: center;
-	border-radius: 10px;
 }
 
-.checkbox{
-	width: 75px;
-	height: 30px;
+.checkbox {
+	width: 2rem;
+	height: 1rem;
+	vertical-align: middle;
 }
 .btn-modal {
+	width: 100%;
+	font-size: 1rem;
+	color: white;
+	background: black;
 	margin: 0.5rem 0.25rem;
-	padding: 0.5rem 1rem;
+	padding: 0.75rem;
 	border-radius: 0.5rem;
-	color: hsl(260, 78%, 78%);
 	cursor: pointer;
-	background-color: hsla(260, 35%, 60%, 0.25);
+}
+.playlist-modal-icon {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 1rem;
+	left: 24rem;
+	z-index: 10;
+	cursor: pointer;
 }
 </style>

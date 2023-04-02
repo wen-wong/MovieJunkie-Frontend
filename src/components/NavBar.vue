@@ -14,7 +14,11 @@ export default {
 			createPlaylist: false,
 			username: "",
 			password: "",
-			email: ""
+			email: "",
+			isEditError: false,
+			editErrorMessage: "",
+			isDeleteError: false,
+			deleteErrorMessage: ""
 		};
 	},
 	methods: {
@@ -25,7 +29,6 @@ export default {
 				this.edit = true;
 				this.del = false;
 				this.createPlaylist = false;
-				console.log("Redirecting to edit account popup");
 			}
 			if (option == "Delete Account") {
 				//add logic to redirect to popup (once popup is implemented)
@@ -33,7 +36,6 @@ export default {
 				this.del = true;
 				this.edit = false;
 				this.createPlaylist = false;
-				console.log("Redirecting to delete account popup");
 			}
 			if (option == "Create Playlist") {
 				this.showModal = true;
@@ -43,44 +45,42 @@ export default {
 			}
 		},
 
-		editAccount(username, email, password) {
-			console.log(
-				"Editing account with username, email, password:" +
-					username +
-					" " +
-					email +
-					" " +
-					password
-			);
-			this.edit = false;
-			this.showModal = false;
-			axios
+		async editAccount(username, email, password) {
+			const editResponse = await axios
 				.post("http://localhost:8080/account/edit/", {
 					username: username,
 					password: password,
 					email: email
 				})
+				.then(() => {
+					this.isEditError = false;
+					this.$cookies.set("username", username);
+					this.edit = false;
+					this.showModal = false;
+				})
 				.catch((error) => {
-					console.log(error);
-				
+					this.editErrorMessage = error.response.data;
+					this.isEditError = true;
 				});
 		},
 
 		deleteAccount(username, password) {
-			console.log(
-				"Deleting account with username and password: " + username + " " + password
-			);
-			this.del = false;
-			this.showModal = false;
 			axios
 				.post("http://localhost:8080/account/delete/", {
 					username: username,
 					password: password
 				})
+				.then(() => {
+					this.del = false;
+					this.showModal = false;
+					this.$cookies.set("username", null);
+					this.isDeleteError = false;
+					this.$router.push("/signup");
+				})
 				.catch((error) => {
-					console.log(error);
+					this.deleteErrorMessage = error.response.data;
+					this.isDeleteError = true;
 				});
-			this.$router.push("/signup");
 		},
 		createPlaylist1(title, description) {
 			this.createPlaylist = false;
@@ -95,15 +95,11 @@ export default {
 				});
 		},
 		logout() {
-			console.log("Logging out");
-			this.$cookies.set("username",null);
-			console.log(this.$cookies.get("username"));
+			this.$cookies.set("username", null);
 			this.$router.push("/login");
 		},
 
-		returnHome() {
-			console.log("Returning to home page");
-		}
+		returnHome() {}
 	}
 };
 </script>
@@ -131,12 +127,10 @@ export default {
 			</router-link>
 		</div>
 		<div class="nav-item-container nav-right">
-			<!--			<button class="nav-item item-right">Account-->
 			<AccountDropdown
 				:options="['Edit Account', 'Delete Account', 'Create Playlist']"
 				@optionSelected="handleOptionSelected"
 			/>
-			<!--      </button>-->
 			<img
 				class="nav-item nav-icon"
 				src="../assets/icons/exit_to_app_30px.svg"
@@ -188,6 +182,10 @@ export default {
 						Confirm Changes
 					</button>
 				</div>
+				<div class="modal-error" v-if="isEditError">
+					<img src="../assets/icons/error_outline_24px_rounded.svg" alt="Error Icon" />
+					<div class="modal-error-text">{{ editErrorMessage }}</div>
+				</div>
 			</div>
 			<div class="modal-container" v-if="del">
 				<div class="modal-title">Delete Account</div>
@@ -213,6 +211,10 @@ export default {
 					<button class="button" @click="deleteAccount(username, password)">
 						Confirm Changes
 					</button>
+				</div>
+				<div class="modal-error" v-if="isDeleteError">
+					<img src="../assets/icons/error_outline_24px_rounded.svg" alt="Error Icon" />
+					<div class="modal-error-text">{{ deleteErrorMessage }}</div>
 				</div>
 			</div>
 
@@ -360,6 +362,10 @@ export default {
 	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
 		Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	margin: 1rem 0rem;
+	background: black;
+	padding: 0.75rem 0.5rem;
+	border-radius: 8px;
+	color: white;
 }
 
 .modal-icon {
@@ -380,6 +386,17 @@ export default {
 	font-weight: normal;
 }
 .nav-route:hover {
+	font-weight: bold;
+}
+.modal-error {
+	display: flex;
+	flex-direction: row;
+	padding: 0.5rem;
+	background: rgba(232, 125, 125, 0.3);
+	border-radius: 8px;
+}
+.modal-error-text {
+	margin-left: 0.5rem;
 	font-weight: bold;
 }
 </style>

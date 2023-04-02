@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-	<v-card class="card" pa="4">{{ title }}</v-card>
+	<div class="card" pa="4">{{ title }}</div>
 </template>
 
 <style>

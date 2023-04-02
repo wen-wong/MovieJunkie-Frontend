@@ -144,5 +144,6 @@ export default {
 	border-radius: 0.5rem;
 	color: white;
 	background-color: black;
+	width: 10rem;
 }
 </style>
